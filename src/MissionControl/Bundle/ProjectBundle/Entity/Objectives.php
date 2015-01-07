@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Objectives
  *
- * @ORM\Table(name="objective")
+ * @ORM\Table(name="objectives")
  * @ORM\Entity
  */
-class Objective {
+class Objectives {
 
     /**
      * @var string
@@ -43,9 +43,9 @@ class Objective {
     /**
      * @var integer
      *
-     * @ORM\Column(name="objective_group", type="integer", nullable=false)
+     * @ORM\Column(name="project_id", type="string", nullable=false)
      */
-    private $objectiveGroup;
+    private $projectId;
 
     /**
      * @var integer
@@ -62,8 +62,8 @@ class Objective {
      * @param string $objectiveGroup
      * @return Objectives
      */
-    public function setObjectiveGroup($objectiveGroup) {
-        $this->objectiveGroup = $objectiveGroup;
+    public function setProjectId($projectId) {
+        $this->projectId = $projectId;
 
         return $this;
     }
@@ -73,8 +73,8 @@ class Objective {
      *
      * @return string 
      */
-    public function getObjectiveGroup() {
-        return $this->objectiveGroup;
+    public function getProjectId() {
+        return $this->projectId;
     }
 
     /**

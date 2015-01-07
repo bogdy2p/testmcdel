@@ -3,6 +3,8 @@
 namespace MissionControl\Bundle\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * Lightxmlprojects
@@ -12,6 +14,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Lightxmlprojects
 {
+    
+    public function __construct() {
+//        $this->setup = new ArrayCollection();
+//        $this->objective = new ArrayCollection();
+//        $this->touchpoints = new ArrayCollection();
+//        $this->cprattributes = new ArrayCollection();
+//        $this->budgetallocation = new ArrayCollection();
+//        $this->timeallocation = new ArrayCollection();
+    }
+
     /**
      * @var integer
      *

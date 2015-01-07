@@ -7,7 +7,7 @@ use MissionControl\Bundle\ProjectBundle\Entity\Project;
 use MissionControl\Bundle\ProjectBundle\Entity\Lightxmlprojects;
 
 use MissionControl\Bundle\ProjectBundle\Entity\Setups;
-use MissionControl\Bundle\ProjectBundle\Entity\Objective;
+use MissionControl\Bundle\ProjectBundle\Entity\Objectives;
 use MissionControl\Bundle\ProjectBundle\Entity\Touchpoints;
 use MissionControl\Bundle\ProjectBundle\Entity\Cprattributes;
 use MissionControl\Bundle\ProjectBundle\Entity\Budgetallocations;
@@ -186,7 +186,7 @@ class ProjectController extends FOSRestController {
         
             // 2 Level 2
             $setup              = new Setups();
-            $objectives         = new Objective();
+            $objectives         = new Objectives();
             $touchpoints        = new Touchpoints();
             $cprattributes      = new Cprattributes();
             $budgetallocation   = new Budgetallocations();
@@ -268,8 +268,11 @@ class ProjectController extends FOSRestController {
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
         
-                            
+                $lightproject->setSetup($setup);
         
+                //$lightproject->setTimeallocation($xml_file_data->TimeAllocation);
+                
+                      
             
         ////////////////////////////////////////////////////////////////    
         //Assign Project OBJECTIVES Data 
@@ -277,30 +280,59 @@ class ProjectController extends FOSRestController {
             
         $objectives_array_from_file = $xml_file_data->Objectives->Objective;
         $number_of_objectives_from_file = count($objectives_array_from_file);
-        $objectives_group = '123432';
         
-         
         for ($i=0;$i<$number_of_objectives_from_file;$i++) {
-            
+             $obiectiv[$i] = new Objectives();
+             $obiectiv[$i]->setProjectId($project->getId());
+             $obiectiv[$i]->setHtmlcolor($xml_file_data->Objectives->Objective[$i]->HtmlColor);
+             $obiectiv[$i]->setName($xml_file_data->Objectives->Objective[$i]->Name);
+             $obiectiv[$i]->setScore($xml_file_data->Objectives->Objective[$i]->Score);
+             $obiectiv[$i]->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
+             // TRY TO PERSIST HERE.
+             $em_test = $this->getDoctrine()->getManager();
+             $em_test->persist($obiectiv[$i]);
+             $em_test->flush();
              
-             
-            
-             $objectives->setObjectiveGroup($objectives_group);
-             $objectives->setHtmlcolor($xml_file_data->Objectives->Objective[$i]->HtmlColor);
-             $objectives->setName($xml_file_data->Objectives->Objective[$i]->Name);
-             $objectives->setScore($xml_file_data->Objectives->Objective[$i]->Score);
-             $objectives->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
-   
+             print_r($obiectiv[$i]);
         }
-        
-        print_r($objectives);
+        //print_r($objectives);
           
         
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
         
+        ////////////////////////////////////////////////////////////////    
+        //Assign Project INDIVIDUALPERFORMANCE Data 
+        ////////////////////////////////////////////////////////////////
+        
+        //$individualperformance_array = $xml_file_data->TimeAllocation->Total->AllocationByPeriod->AllocationData->Result->IndividualPerformance;
+        
+        //print_r($individualperformance_array);
+        
+         ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+//        foreach ($xml_file_data->children() as $second) {
+//            echo '2 ------------------------------';
+//            echo $second->getName();
+//                     
+//            foreach ($second->children() as $third) {
+//                //print_r('3...');
+//                print_r($third->getName().'=='.$third->__toString());
+//                
+//                foreach ($third->children() as $fourth) {
+//                    echo '<br />4...........'.$fourth->getName();
+//                    
+//                    foreach ($fourth->children() as $fifth) {
+//                        echo '<br /> 5 ...........................'.$fifth->__toString();
+//                        
+//                    }
+//                }
+//            }
+//            //print_r($second->children()->getName());
+//        }
         
         
+        //print_r($xml_file_data->children());
         die();
             
     
@@ -328,8 +360,10 @@ class ProjectController extends FOSRestController {
         // Move the file in the uploads folder before persisting the Project entity:
         //$project->upload();
 
-        $em->persist($objectives);
+        //$em->persist($lightproject);
         //$em->persist($client);
+        //$em->persist($timeallocation);
+        //$em->persist($object);
         $em->flush();
 
         $response->setStatusCode(201);
