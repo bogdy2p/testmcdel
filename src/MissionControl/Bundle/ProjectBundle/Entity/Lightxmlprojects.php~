@@ -1,0 +1,85 @@
+<?php
+
+namespace MissionControl\Bundle\ProjectBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Lightxmlprojects
+ *
+ * @ORM\Table(name="lightxmlprojects", uniqueConstraints={@ORM\UniqueConstraint(name="project_id", columns={"project_id"})}, indexes={@ORM\Index(name="fk_projects_setups_idx", columns={"setup"}), @ORM\Index(name="fk_projects_objectives1_idx", columns={"objectives"}), @ORM\Index(name="fk_projects_touchpoints1_idx", columns={"touchpoints"}), @ORM\Index(name="fk_projects_cprattributes1_idx", columns={"cprattributes"}), @ORM\Index(name="fk_projects_budgetallocations1_idx", columns={"budgetallocation"}), @ORM\Index(name="fk_projects_timeallocations1_idx", columns={"timeallocation"})})
+ * @ORM\Entity
+ */
+class Lightxmlprojects
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="project_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $projectId;
+
+    /**
+     * @var \MissionControl\Bundle\ProjectBundle\Entity\Timeallocations
+     *
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Timeallocations")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="timeallocation", referencedColumnName="timeallocation_id")
+     * })
+     */
+    private $timeallocation;
+
+    /**
+     * @var \MissionControl\Bundle\ProjectBundle\Entity\Touchpoints
+     *
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Touchpoints")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="touchpoints", referencedColumnName="touchpoint_id")
+     * })
+     */
+    private $touchpoints;
+
+    /**
+     * @var \MissionControl\Bundle\ProjectBundle\Entity\Setups
+     *
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Setups")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="setup", referencedColumnName="setup_id")
+     * })
+     */
+    private $setup;
+
+    /**
+     * @var \MissionControl\Bundle\ProjectBundle\Entity\Objectives
+     *
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Objectives")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="objectives", referencedColumnName="objective_id")
+     * })
+     */
+    private $objectives;
+
+    /**
+     * @var \MissionControl\Bundle\ProjectBundle\Entity\Cprattributes
+     *
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Cprattributes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cprattributes", referencedColumnName="cprattribute_id")
+     * })
+     */
+    private $cprattributes;
+
+    /**
+     * @var \MissionControl\Bundle\ProjectBundle\Entity\Budgetallocations
+     *
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Budgetallocations")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="budgetallocation", referencedColumnName="budgetallocation_id")
+     * })
+     */
+    private $budgetallocation;
+
+
+}

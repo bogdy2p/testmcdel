@@ -1,0 +1,53 @@
+<?php
+
+namespace MissionControl\Bundle\ProjectBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Objectives
+ *
+ * @ORM\Table(name="objectives")
+ * @ORM\Entity
+ */
+class Objectives
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=45, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="htmlcolor", type="string", length=7, nullable=false)
+     */
+    private $htmlcolor;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="selected", type="boolean", nullable=false)
+     */
+    private $selected;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="score", type="integer", nullable=false)
+     */
+    private $score;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="objective_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $objectiveId;
+
+
+}

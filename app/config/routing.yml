@@ -1,0 +1,10 @@
+mission_control_user:
+    resource: @UserBundle/Controller/
+    type:     annotation
+mission_control_project:
+    type: rest
+    prefix: /api
+    resource: "@ProjectBundle/Resources/config/routing.yml"
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix: /api/v1/doc

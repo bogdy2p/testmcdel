@@ -1,0 +1,10 @@
+MissionControl\Bundle\ProjectBundle\Entity\Project:
+    properties:
+        name:
+            - NotBlank:
+                message: "Please insert a name for the new project you want to create."
+        xmlFile:
+            - File:
+                maxSize: 6000000
+            - NotNull:
+                message: "Please insert the XML file for the new project."

@@ -1,0 +1,42 @@
+<?php
+
+namespace MissionControl\Bundle\ProjectBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * BudgetTotal
+ *
+ * @ORM\Table(name="budget_total", indexes={@ORM\Index(name="fk_budgetallocationstotal_allocations1_idx", columns={"allocation"})})
+ * @ORM\Entity
+ */
+class BudgetTotal
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="touchpointame", type="string", length=255, nullable=true)
+     */
+    private $touchpointame;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="total_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $totalId;
+
+    /**
+     * @var \MissionControl\Bundle\ProjectBundle\Entity\Allocations
+     *
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Allocations")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="allocation", referencedColumnName="allocation_id")
+     * })
+     */
+    private $allocation;
+
+
+}

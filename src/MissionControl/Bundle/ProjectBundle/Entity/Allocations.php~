@@ -1,0 +1,49 @@
+<?php
+
+namespace MissionControl\Bundle\ProjectBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Allocations
+ *
+ * @ORM\Table(name="allocations", indexes={@ORM\Index(name="fk_allocations_results1_idx", columns={"result"})})
+ * @ORM\Entity
+ */
+class Allocations
+{
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="costpergrp", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $costpergrp;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="grp", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $grp;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="allocation_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $allocationId;
+
+    /**
+     * @var \MissionControl\Bundle\ProjectBundle\Entity\Results
+     *
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Results")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="result", referencedColumnName="result_id")
+     * })
+     */
+    private $result;
+
+
+}

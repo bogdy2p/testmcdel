@@ -1,0 +1,32 @@
+<?php
+
+namespace MissionControl\Bundle\ProjectBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Attributescores
+ *
+ * @ORM\Table(name="attributescores")
+ * @ORM\Entity
+ */
+class Attributescores
+{
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="attributescore_value", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $attributescoreValue;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="attributescore_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $attributescoreId;
+
+
+}
