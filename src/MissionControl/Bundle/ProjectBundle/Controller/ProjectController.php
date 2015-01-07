@@ -290,13 +290,63 @@ class ProjectController extends FOSRestController {
              $obiectiv[$i]->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
              // TRY TO PERSIST HERE.
              $em_test = $this->getDoctrine()->getManager();
-             $em_test->persist($obiectiv[$i]);
+//             $em_test->persist($obiectiv[$i]);
              $em_test->flush();
              
-             print_r($obiectiv[$i]);
+            // print_r($obiectiv[$i]);
+        }
+//        print_r($objectives);
+        
+        
+        ////////////////////////////////////////////////////////////////    
+        //Assign Project TOUCHPOINTS Data 
+        ////////////////////////////////////////////////////////////////
+        
+        
+        $touchpoints_array_from_file = $xml_file_data->Touchpoints->Touchpoint;
+        $number_of_touchpoints = count($touchpoints_array_from_file);
+        //print_r($number_of_touchpoints);
+        
+       for ($i=0;$i<$number_of_touchpoints;$i++) {
+             $touchpoint[$i] = new Touchpoints();
+             //Add column for project id to touchpoints.
+                //$touchpoint[$i]->setProjectId($project->getId());
+             $touchpoint[$i]->setName($xml_file_data->Touchpoints->Touchpoint[$i]->Name);
+             $touchpoint[$i]->setLocalname($xml_file_data->Touchpoints->Touchpoint[$i]->LocalName);
+             $touchpoint[$i]->setHtmlcolor($xml_file_data->Touchpoints->Touchpoint[$i]->HtmlColor);
+             $touchpoint[$i]->setSelected($xml_file_data->Touchpoints->Touchpoint[$i]->Selected);
+             
+             
+             ///
+             
+             foreach ($touchpoints_array_from_file as $individual_touchpoint){
+                 
+                 print_r($individual_touchpoint->ObjectiveScores->double);
+                 print_r($individual_touchpoint->AttributeScores->double);
+             }
+             
+             
+             ///
+             
+             
+             
+             
+             
+             $touchpoint[$i]->setObjectivescores(new Objectivescores());  // Here should be something ... unique ? :| Like PROJECT ID + Touchpoint ID ?!?!?!
+             $touchpoint[$i]->setAttributescores(new Attributescores());
+           
+             
+             
+             // TRY TO PERSIST HERE.
+             $em_test = $this->getDoctrine()->getManager();
+//             $em_test->persist($touchpoint[$i]);
+             $em_test->flush();
+//             print_r($touchpoint[$i]);
+             //print_r($touchpoints_array_from_file);
         }
         //print_r($objectives);
-          
+        
+        
         
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
@@ -333,7 +383,7 @@ class ProjectController extends FOSRestController {
         
         
         //print_r($xml_file_data->children());
-        die();
+        //die();
             
     
                            
@@ -363,7 +413,7 @@ class ProjectController extends FOSRestController {
         //$em->persist($lightproject);
         //$em->persist($client);
         //$em->persist($timeallocation);
-        //$em->persist($object);
+//        $em->persist($setup);
         $em->flush();
 
         $response->setStatusCode(201);

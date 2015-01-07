@@ -52,7 +52,7 @@ class Touchpoints
     /**
      * @var \MissionControl\Bundle\ProjectBundle\Entity\Attributescores
      *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Attributescores")
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Attributescores", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="attributescores", referencedColumnName="attributescore_id")
      * })
@@ -62,7 +62,7 @@ class Touchpoints
     /**
      * @var \MissionControl\Bundle\ProjectBundle\Entity\Objectivescores
      *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Objectivescores")
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Objectivescores", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="objectivescores", referencedColumnName="objectivescore_id")
      * })
