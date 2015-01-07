@@ -7,11 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Objectives
  *
- * @ORM\Table(name="objectives")
+ * @ORM\Table(name="objective")
  * @ORM\Entity
  */
-class Objectives
-{
+class Objective {
+
     /**
      * @var string
      *
@@ -43,13 +43,39 @@ class Objectives
     /**
      * @var integer
      *
+     * @ORM\Column(name="objective_group", type="integer", nullable=false)
+     */
+    private $objectiveGroup;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="objective_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $objectiveId;
 
+    /**
+     * Set Objective Group
+     *
+     * @param string $objectiveGroup
+     * @return Objectives
+     */
+    public function setObjectiveGroup($objectiveGroup) {
+        $this->objectiveGroup = $objectiveGroup;
 
+        return $this;
+    }
+
+    /**
+     * Get Objective Group
+     *
+     * @return string 
+     */
+    public function getObjectiveGroup() {
+        return $this->objectiveGroup;
+    }
 
     /**
      * Set name
@@ -57,8 +83,7 @@ class Objectives
      * @param string $name
      * @return Objectives
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -69,8 +94,7 @@ class Objectives
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -80,8 +104,7 @@ class Objectives
      * @param string $htmlcolor
      * @return Objectives
      */
-    public function setHtmlcolor($htmlcolor)
-    {
+    public function setHtmlcolor($htmlcolor) {
         $this->htmlcolor = $htmlcolor;
 
         return $this;
@@ -92,8 +115,7 @@ class Objectives
      *
      * @return string 
      */
-    public function getHtmlcolor()
-    {
+    public function getHtmlcolor() {
         return $this->htmlcolor;
     }
 
@@ -103,8 +125,7 @@ class Objectives
      * @param boolean $selected
      * @return Objectives
      */
-    public function setSelected($selected)
-    {
+    public function setSelected($selected) {
         $this->selected = $selected;
 
         return $this;
@@ -115,8 +136,7 @@ class Objectives
      *
      * @return boolean 
      */
-    public function getSelected()
-    {
+    public function getSelected() {
         return $this->selected;
     }
 
@@ -126,8 +146,7 @@ class Objectives
      * @param integer $score
      * @return Objectives
      */
-    public function setScore($score)
-    {
+    public function setScore($score) {
         $this->score = $score;
 
         return $this;
@@ -138,8 +157,7 @@ class Objectives
      *
      * @return integer 
      */
-    public function getScore()
-    {
+    public function getScore() {
         return $this->score;
     }
 
@@ -148,8 +166,8 @@ class Objectives
      *
      * @return integer 
      */
-    public function getObjectiveId()
-    {
+    public function getObjectiveId() {
         return $this->objectiveId;
     }
+
 }

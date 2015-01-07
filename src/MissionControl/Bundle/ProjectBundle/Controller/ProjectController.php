@@ -7,7 +7,7 @@ use MissionControl\Bundle\ProjectBundle\Entity\Project;
 use MissionControl\Bundle\ProjectBundle\Entity\Lightxmlprojects;
 
 use MissionControl\Bundle\ProjectBundle\Entity\Setups;
-use MissionControl\Bundle\ProjectBundle\Entity\Objectives;
+use MissionControl\Bundle\ProjectBundle\Entity\Objective;
 use MissionControl\Bundle\ProjectBundle\Entity\Touchpoints;
 use MissionControl\Bundle\ProjectBundle\Entity\Cprattributes;
 use MissionControl\Bundle\ProjectBundle\Entity\Budgetallocations;
@@ -186,7 +186,7 @@ class ProjectController extends FOSRestController {
         
             // 2 Level 2
             $setup              = new Setups();
-            $objectives         = new Objectives();
+            $objectives         = new Objective();
             $touchpoints        = new Touchpoints();
             $cprattributes      = new Cprattributes();
             $budgetallocation   = new Budgetallocations();
@@ -228,7 +228,7 @@ class ProjectController extends FOSRestController {
         $xml_file_data = simplexml_load_file($pbc_xmlfile);
         
         
-        // setting level 2 data of the lightproject            
+// setting level 2 data of the lightproject            
 //        $lightproject->setSetup($setup);
 //        $lightproject->setObjectives($objectives);
 //        $lightproject->setTouchpoints($touchpoints);
@@ -241,7 +241,7 @@ class ProjectController extends FOSRestController {
         
        
         ////////////////////////////////////////////////////////////////
-        //Assign Project Setup Data
+        //Assign Project SETUP Data
         ////////////////////////////////////////////////////////////////
         $client->setName($xml_file_data->Setup->Client->Name);
         $client->setDbid($xml_file_data->Setup->Client->DbID);
@@ -266,43 +266,44 @@ class ProjectController extends FOSRestController {
             $setup->setBudget($xml_file_data->Setup->Budget);
             $setup->setBudgetcurrency($xml_file_data->Setup->BudgetCurrency);
         ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
         
                             
         
-        $objectives_array = $xml_file_data->Objectives->Objective;
+            
+        ////////////////////////////////////////////////////////////////    
+        //Assign Project OBJECTIVES Data 
+        ////////////////////////////////////////////////////////////////
+            
+        $objectives_array_from_file = $xml_file_data->Objectives->Objective;
+        $number_of_objectives_from_file = count($objectives_array_from_file);
+        $objectives_group = '123432';
         
-        
-        // get the number of elements of the objectives_array.
-        $number_of_objectives = count($objectives_array);
-        // iterate over the objectives array
-        for ($i=0;$i<$number_of_objectives;$i++) {
+         
+        for ($i=0;$i<$number_of_objectives_from_file;$i++) {
             
-            print_r($xml_file_data->Objectives->Objective[$i]->Name);
+             
+             
             
-            
+             $objectives->setObjectiveGroup($objectives_group);
+             $objectives->setHtmlcolor($xml_file_data->Objectives->Objective[$i]->HtmlColor);
+             $objectives->setName($xml_file_data->Objectives->Objective[$i]->Name);
+             $objectives->setScore($xml_file_data->Objectives->Objective[$i]->Score);
+             $objectives->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
+   
         }
         
-        
-                
-        die();
-            $contor = 0;
-        foreach ($objectives_array as $individual_objective) {
-             
-             $objectives->objectiveId = $contor;
-             $objectives->setHtmlcolor($individual_objective->HtmlColor);
-             $objectives->setName($individual_objective->Name);
-             $objectives->setScore($individual_objective->Score);
-             $objectives->setSelected($individual_objective->Selected);
-             $contor += 1;
-            
-        }    
-            
-        
         print_r($objectives);
-            
-            
-        //print_r($xml_file_data->Setup->StartDate);
+          
+        
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        
+        
+        
         die();
+            
+    
                            
         $project->setUser($user);
 
@@ -327,7 +328,7 @@ class ProjectController extends FOSRestController {
         // Move the file in the uploads folder before persisting the Project entity:
         //$project->upload();
 
-        //$em->persist($setup);
+        $em->persist($objectives);
         //$em->persist($client);
         $em->flush();
 
