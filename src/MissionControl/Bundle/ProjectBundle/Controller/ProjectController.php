@@ -269,11 +269,40 @@ class ProjectController extends FOSRestController {
         
                             
         
+        $objectives_array = $xml_file_data->Objectives->Objective;
+        
+        
+        // get the number of elements of the objectives_array.
+        $number_of_objectives = count($objectives_array);
+        // iterate over the objectives array
+        for ($i=0;$i<$number_of_objectives;$i++) {
             
+            print_r($xml_file_data->Objectives->Objective[$i]->Name);
+            
+            
+        }
+        
+        
+                
+        die();
+            $contor = 0;
+        foreach ($objectives_array as $individual_objective) {
+             
+             $objectives->objectiveId = $contor;
+             $objectives->setHtmlcolor($individual_objective->HtmlColor);
+             $objectives->setName($individual_objective->Name);
+             $objectives->setScore($individual_objective->Score);
+             $objectives->setSelected($individual_objective->Selected);
+             $contor += 1;
+            
+        }    
+            
+        
+        print_r($objectives);
             
             
         //print_r($xml_file_data->Setup->StartDate);
-        //die();
+        die();
                            
         $project->setUser($user);
 
@@ -298,7 +327,7 @@ class ProjectController extends FOSRestController {
         // Move the file in the uploads folder before persisting the Project entity:
         //$project->upload();
 
-        $em->persist($setup);
+        //$em->persist($setup);
         //$em->persist($client);
         $em->flush();
 

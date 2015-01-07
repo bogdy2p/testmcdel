@@ -59,7 +59,7 @@ class Setups
     /**
      * @var \MissionControl\Bundle\ProjectBundle\Entity\Clients
      *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Clients", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Clients", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="client", referencedColumnName="client_id")
      * })
@@ -69,7 +69,7 @@ class Setups
     /**
      * @var \MissionControl\Bundle\ProjectBundle\Entity\Targets
      *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Targets", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Targets", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="target", referencedColumnName="target_id")
      * })
@@ -79,7 +79,7 @@ class Setups
     /**
      * @var \MissionControl\Bundle\ProjectBundle\Entity\Surveys
      *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Surveys", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Surveys", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="survey", referencedColumnName="survey_id")
      * })
