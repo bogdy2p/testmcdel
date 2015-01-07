@@ -288,14 +288,14 @@ class ProjectController extends FOSRestController {
              $obiectiv[$i]->setName($xml_file_data->Objectives->Objective[$i]->Name);
              $obiectiv[$i]->setScore($xml_file_data->Objectives->Objective[$i]->Score);
              $obiectiv[$i]->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
-             // TRY TO PERSIST HERE.
+             //!!!PERSIST HERE. // Must/should add some validation !!!
              $em_test = $this->getDoctrine()->getManager();
 //             $em_test->persist($obiectiv[$i]);
              $em_test->flush();
              
-            // print_r($obiectiv[$i]);
+           
         }
-//        print_r($objectives);
+
         
         
         ////////////////////////////////////////////////////////////////    
@@ -309,6 +309,8 @@ class ProjectController extends FOSRestController {
         
        for ($i=0;$i<$number_of_touchpoints;$i++) {
              $touchpoint[$i] = new Touchpoints();
+             
+             $touchpoint[$i]->setProjectId($project->getId());
              //Add column for project id to touchpoints.
                 //$touchpoint[$i]->setProjectId($project->getId());
              $touchpoint[$i]->setName($xml_file_data->Touchpoints->Touchpoint[$i]->Name);
@@ -316,15 +318,27 @@ class ProjectController extends FOSRestController {
              $touchpoint[$i]->setHtmlcolor($xml_file_data->Touchpoints->Touchpoint[$i]->HtmlColor);
              $touchpoint[$i]->setSelected($xml_file_data->Touchpoints->Touchpoint[$i]->Selected);
              
+             // Count how many objective scores and attributescores a touchpoint has.
+                //?? Is this counting for each or only for the first touchpoint ?? //
+             $objectivescores_number = count($touchpoints_array_from_file->ObjectiveScores->double);
+             $attributescores_number = count($touchpoints_array_from_file->AttributeScores->double);
              
-             ///
              
-             foreach ($touchpoints_array_from_file as $individual_touchpoint){
+             foreach ($touchpoints_array_from_file->ObjectiveScores as $individual_objectivescore){
                  
-                 print_r($individual_touchpoint->ObjectiveScores->double);
-                 print_r($individual_touchpoint->AttributeScores->double);
+                 $objectivescore = new Objectivescores();
+                 $objectivescore->setObjectivescoreValue($objectivescoreValue);
+                 
+                 
+// THIS IS TOUCHPOINTS -> OBJECTIVESCORES;
+                 var_dump($individual_objectivescore->double->__toString());
+                 
+                 //print_r(count($individual_objectivescore));
+                 //print_r($individual_touchpoint->ObjectiveScores->double);
+                 //print_r($individual_touchpoint->AttributeScores->double);
              }
              
+             //die();
              
              ///
              
@@ -345,7 +359,7 @@ class ProjectController extends FOSRestController {
              //print_r($touchpoints_array_from_file);
         }
         //print_r($objectives);
-        
+        print_r($objectivescores_number);
         
         
         ////////////////////////////////////////////////////////////////

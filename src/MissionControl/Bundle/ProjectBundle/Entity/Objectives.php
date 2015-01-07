@@ -43,13 +43,6 @@ class Objectives {
     /**
      * @var integer
      *
-     * @ORM\Column(name="project_id", type="string", nullable=false)
-     */
-    private $projectId;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="objective_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -57,9 +50,16 @@ class Objectives {
     private $objectiveId;
 
     /**
-     * Set Objective Group
+     * @var integer
      *
-     * @param string $objectiveGroup
+     * @ORM\Column(name="project_id", type="string", nullable=false)
+     */
+    private $projectId;
+
+    /**
+     * Set ProjectId
+     *
+     * @param string $projectId
      * @return Objectives
      */
     public function setProjectId($projectId) {
@@ -69,7 +69,7 @@ class Objectives {
     }
 
     /**
-     * Get Objective Group
+     * Get ProjectId
      *
      * @return string 
      */

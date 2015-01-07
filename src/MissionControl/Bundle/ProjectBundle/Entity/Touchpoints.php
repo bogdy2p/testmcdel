@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="touchpoints", indexes={@ORM\Index(name="fk_touchpoints_objectivescores1_idx", columns={"objectivescores"}), @ORM\Index(name="fk_touchpoints_attributescores1_idx", columns={"attributescores"})})
  * @ORM\Entity
  */
-class Touchpoints
-{
+class Touchpoints {
+
     /**
      * @var string
      *
@@ -69,7 +69,33 @@ class Touchpoints
      */
     private $objectivescores;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="project_id", type="string", nullable=false)
+     */
+    private $projectId;
 
+    /**
+     * Set ProjectId
+     *
+     * @param string $projectId
+     * @return Objectives
+     */
+    public function setProjectId($projectId) {
+        $this->projectId = $projectId;
+
+        return $this;
+    }
+
+    /**
+     * Get ProjectId
+     *
+     * @return string 
+     */
+    public function getProjectId() {
+        return $this->projectId;
+    }
 
     /**
      * Set name
@@ -77,8 +103,7 @@ class Touchpoints
      * @param string $name
      * @return Touchpoints
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -89,8 +114,7 @@ class Touchpoints
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -100,8 +124,7 @@ class Touchpoints
      * @param string $localname
      * @return Touchpoints
      */
-    public function setLocalname($localname)
-    {
+    public function setLocalname($localname) {
         $this->localname = $localname;
 
         return $this;
@@ -112,8 +135,7 @@ class Touchpoints
      *
      * @return string 
      */
-    public function getLocalname()
-    {
+    public function getLocalname() {
         return $this->localname;
     }
 
@@ -123,8 +145,7 @@ class Touchpoints
      * @param string $htmlcolor
      * @return Touchpoints
      */
-    public function setHtmlcolor($htmlcolor)
-    {
+    public function setHtmlcolor($htmlcolor) {
         $this->htmlcolor = $htmlcolor;
 
         return $this;
@@ -135,8 +156,7 @@ class Touchpoints
      *
      * @return string 
      */
-    public function getHtmlcolor()
-    {
+    public function getHtmlcolor() {
         return $this->htmlcolor;
     }
 
@@ -146,8 +166,7 @@ class Touchpoints
      * @param integer $selected
      * @return Touchpoints
      */
-    public function setSelected($selected)
-    {
+    public function setSelected($selected) {
         $this->selected = $selected;
 
         return $this;
@@ -158,8 +177,7 @@ class Touchpoints
      *
      * @return integer 
      */
-    public function getSelected()
-    {
+    public function getSelected() {
         return $this->selected;
     }
 
@@ -168,8 +186,7 @@ class Touchpoints
      *
      * @return integer 
      */
-    public function getTouchpointId()
-    {
+    public function getTouchpointId() {
         return $this->touchpointId;
     }
 
@@ -179,8 +196,7 @@ class Touchpoints
      * @param \MissionControl\Bundle\ProjectBundle\Entity\Attributescores $attributescores
      * @return Touchpoints
      */
-    public function setAttributescores(\MissionControl\Bundle\ProjectBundle\Entity\Attributescores $attributescores = null)
-    {
+    public function setAttributescores(\MissionControl\Bundle\ProjectBundle\Entity\Attributescores $attributescores = null) {
         $this->attributescores = $attributescores;
 
         return $this;
@@ -191,8 +207,7 @@ class Touchpoints
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\Attributescores 
      */
-    public function getAttributescores()
-    {
+    public function getAttributescores() {
         return $this->attributescores;
     }
 
@@ -202,8 +217,7 @@ class Touchpoints
      * @param \MissionControl\Bundle\ProjectBundle\Entity\Objectivescores $objectivescores
      * @return Touchpoints
      */
-    public function setObjectivescores(\MissionControl\Bundle\ProjectBundle\Entity\Objectivescores $objectivescores = null)
-    {
+    public function setObjectivescores(\MissionControl\Bundle\ProjectBundle\Entity\Objectivescores $objectivescores = null) {
         $this->objectivescores = $objectivescores;
 
         return $this;
@@ -214,8 +228,8 @@ class Touchpoints
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\Objectivescores 
      */
-    public function getObjectivescores()
-    {
+    public function getObjectivescores() {
         return $this->objectivescores;
     }
+
 }
