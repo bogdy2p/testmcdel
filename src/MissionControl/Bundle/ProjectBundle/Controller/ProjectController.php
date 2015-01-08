@@ -284,16 +284,15 @@ class ProjectController extends FOSRestController {
         $number_of_objectives_from_file = count($objectives_array_from_file);
         
         for ($i=0;$i<$number_of_objectives_from_file;$i++) {
-             $obiectiv[$i] = new Objectives();
-             
-             $obiectiv[$i]->setProjectId($lightproject->getProjectUniqueId());
-             $obiectiv[$i]->setHtmlcolor($xml_file_data->Objectives->Objective[$i]->HtmlColor);
-             $obiectiv[$i]->setName($xml_file_data->Objectives->Objective[$i]->Name);
-             $obiectiv[$i]->setScore($xml_file_data->Objectives->Objective[$i]->Score);
-             $obiectiv[$i]->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
+             $obiectiv = new Objectives();
+             $obiectiv->setProjectId($lightproject->getProjectUniqueId());
+             $obiectiv->setHtmlcolor($xml_file_data->Objectives->Objective[$i]->HtmlColor);
+             $obiectiv->setName($xml_file_data->Objectives->Objective[$i]->Name);
+             $obiectiv->setScore($xml_file_data->Objectives->Objective[$i]->Score);
+             $obiectiv->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
              //!!!PERSIST HERE. // Must/should add some validation !!!
              $em_test = $this->getDoctrine()->getManager();
-             $em_test->persist($obiectiv[$i]);
+             $em_test->persist($obiectiv);
              $em_test->flush();
         }
         $lightproject->setObjectives($obiectiv);
