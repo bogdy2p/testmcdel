@@ -324,19 +324,34 @@ class ProjectController extends FOSRestController {
              $attributescores_number = count($touchpoints_array_from_file->AttributeScores->double);
              
              
-             foreach ($touchpoints_array_from_file->ObjectiveScores as $individual_objectivescore){
-                 
-                 $objectivescore = new Objectivescores();
-                 $objectivescore->setObjectivescoreValue($objectivescoreValue);
+             for ($j=0;$j<$objectivescores_number;$j++){
                  
                  
-// THIS IS TOUCHPOINTS -> OBJECTIVESCORES;
-                 var_dump($individual_objectivescore->double->__toString());
-                 
-                 //print_r(count($individual_objectivescore));
-                 //print_r($individual_touchpoint->ObjectiveScores->double);
-                 //print_r($individual_touchpoint->AttributeScores->double);
+                 $objectivescore[$j] = new Objectivescores();
+                 //$objectivescore[$j]->setTouchpointId($touchpoint[$i]->getTouchpointId());
+                 //$objectivescore[$j]->setObjectivescoreValue($touchpoints_array_from_file->ObjectiveScores->double[$j]);
+                 //$objectivescore[$j]->
+                         
+                 $em_test2 = $this->getDoctrine()->getManager();
+                 $em_test2->persist($objectivescore[$j]);
+                 $em_test2->flush();
              }
+             
+             ///print_r($objectivescore[0]);
+             
+//             foreach ($touchpoints_array_from_file->ObjectiveScores as $individual_objectivescore){
+//                 
+//                 
+//                 $objectivescore->setObjectivescoreValue('3');
+//                 
+//                 
+//// THIS IS TOUCHPOINTS -> OBJECTIVESCORES;
+//                 var_dump($individual_objectivescore->double->__toString());
+//                 
+//                 //print_r(count($individual_objectivescore));
+//                 //print_r($individual_touchpoint->ObjectiveScores->double);
+//                 //print_r($individual_touchpoint->AttributeScores->double);
+//             }
              
              //die();
              

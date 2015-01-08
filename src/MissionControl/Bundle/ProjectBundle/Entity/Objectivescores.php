@@ -28,7 +28,35 @@ class Objectivescores
      */
     private $objectivescoreId;
 
+ /**
+     * @var integer
+     *
+     * @ORM\Column(name="touchpoint_id", type="integer")
+     */
+    private $touchpointId;
 
+   /**
+     * Set touchpointId
+     *
+     * @param float $touchpointId
+     * @return Objectivescores
+     */
+    public function setTouchpointId($touchpointId)
+    {
+        $this->touchpointId = $touchpointId;
+
+        return $this;
+    }
+
+    /**
+     * Get touchpointId
+     *
+     * @return float 
+     */
+    public function getTouchpointId()
+    {
+        return $this->touchpointId;
+    }
 
     /**
      * Set objectivescoreValue
