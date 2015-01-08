@@ -228,13 +228,14 @@ class ProjectController extends FOSRestController {
         $xml_file_data = simplexml_load_file($pbc_xmlfile);
         
         
-// setting level 2 data of the lightproject            
-//        $lightproject->setSetup($setup);
-//        $lightproject->setObjectives($objectives);
-//        $lightproject->setTouchpoints($touchpoints);
-//        $lightproject->setCprattributes($cprattributes);
-//        $lightproject->setBudgetallocation($budgetallocation);
-//        $lightproject->setTimeallocation($timeallocation);
+// setting level 2 data of the lightproject
+          $lightproject->setProjectUniqueId($project->getId());
+          //$lightproject->setSetup($setup);
+          $lightproject->setObjectives($objectives);
+          $lightproject->setTouchpoints($touchpoints);
+          $lightproject->setCprattributes($cprattributes);
+          $lightproject->setBudgetallocation($budgetallocation);
+          $lightproject->setTimeallocation($timeallocation);
         
 
         // setting level 3 data of the lightproject 
@@ -265,12 +266,13 @@ class ProjectController extends FOSRestController {
             $setup->setNbperiods($xml_file_data->Setup->NbPeriods);
             $setup->setBudget($xml_file_data->Setup->Budget);
             $setup->setBudgetcurrency($xml_file_data->Setup->BudgetCurrency);
+            
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
-        
-                $lightproject->setSetup($setup);
-        
-                //$lightproject->setTimeallocation($xml_file_data->TimeAllocation);
+         $lightproject->setSetup($setup);
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+               
                 
                       
             
@@ -283,19 +285,18 @@ class ProjectController extends FOSRestController {
         
         for ($i=0;$i<$number_of_objectives_from_file;$i++) {
              $obiectiv[$i] = new Objectives();
-             $obiectiv[$i]->setProjectId($project->getId());
+             
+             $obiectiv[$i]->setProjectId($lightproject->getProjectUniqueId());
              $obiectiv[$i]->setHtmlcolor($xml_file_data->Objectives->Objective[$i]->HtmlColor);
              $obiectiv[$i]->setName($xml_file_data->Objectives->Objective[$i]->Name);
              $obiectiv[$i]->setScore($xml_file_data->Objectives->Objective[$i]->Score);
              $obiectiv[$i]->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
              //!!!PERSIST HERE. // Must/should add some validation !!!
              $em_test = $this->getDoctrine()->getManager();
-//             $em_test->persist($obiectiv[$i]);
+             $em_test->persist($obiectiv[$i]);
              $em_test->flush();
-             
-           
         }
-
+        $lightproject->setObjectives($obiectiv);
         
         
         ////////////////////////////////////////////////////////////////    
@@ -310,14 +311,14 @@ class ProjectController extends FOSRestController {
        for ($i=0;$i<$number_of_touchpoints;$i++) {
              $touchpoint[$i] = new Touchpoints();
              
-             $touchpoint[$i]->setProjectId($project->getId());
+             $touchpoint[$i]->setProjectId($lightproject->getProjectUniqueId());
              //Add column for project id to touchpoints.
                 //$touchpoint[$i]->setProjectId($project->getId());
              $touchpoint[$i]->setName($xml_file_data->Touchpoints->Touchpoint[$i]->Name);
              $touchpoint[$i]->setLocalname($xml_file_data->Touchpoints->Touchpoint[$i]->LocalName);
              $touchpoint[$i]->setHtmlcolor($xml_file_data->Touchpoints->Touchpoint[$i]->HtmlColor);
              $touchpoint[$i]->setSelected($xml_file_data->Touchpoints->Touchpoint[$i]->Selected);
-             
+             //$touchpoint[$i]->set
              // Count how many objective scores and attributescores a touchpoint has.
                 //?? Is this counting for each or only for the first touchpoint ?? //
              $objectivescores_number = count($touchpoints_array_from_file->ObjectiveScores->double);
@@ -328,13 +329,17 @@ class ProjectController extends FOSRestController {
                  
                  
                  $objectivescore[$j] = new Objectivescores();
-                 //$objectivescore[$j]->setTouchpointId($touchpoint[$i]->getTouchpointId());
-                 //$objectivescore[$j]->setObjectivescoreValue($touchpoints_array_from_file->ObjectiveScores->double[$j]);
-                 //$objectivescore[$j]->
+                
+                 $objectivescore[$j]->setTouchpointId('123456');
+                 $objectivescore[$j]->setObjectivescoreValue($touchpoints_array_from_file->ObjectiveScores->double[$j]->__toString());
+              
                          
-                 $em_test2 = $this->getDoctrine()->getManager();
-                 $em_test2->persist($objectivescore[$j]);
-                 $em_test2->flush();
+                 $touchpoint[$i]->setObjectivescores($objectivescore[$j]);
+
+                 //print_r($touchpoint[$i]);
+                 //$em_test2 = $this->getDoctrine()->getManager();
+                 //$em_test2->persist($touchpoint[$i]);
+                 //$em_test2->flush();
              }
              
              ///print_r($objectivescore[0]);
@@ -361,20 +366,20 @@ class ProjectController extends FOSRestController {
              
              
              
-             $touchpoint[$i]->setObjectivescores(new Objectivescores());  // Here should be something ... unique ? :| Like PROJECT ID + Touchpoint ID ?!?!?!
-             $touchpoint[$i]->setAttributescores(new Attributescores());
+             //$touchpoint[$i]->setObjectivescores(new Objectivescores());  // Here should be something ... unique ? :| Like PROJECT ID + Touchpoint ID ?!?!?!
+             //$touchpoint[$i]->setAttributescores(new Attributescores());
            
              
              
              // TRY TO PERSIST HERE.
-             $em_test = $this->getDoctrine()->getManager();
+             //$em_test = $this->getDoctrine()->getManager();
 //             $em_test->persist($touchpoint[$i]);
-             $em_test->flush();
+             //$em_test->flush();
 //             print_r($touchpoint[$i]);
              //print_r($touchpoints_array_from_file);
         }
         //print_r($objectives);
-        print_r($objectivescores_number);
+        //print_r($objectivescores_number);
         
         
         ////////////////////////////////////////////////////////////////
@@ -439,7 +444,7 @@ class ProjectController extends FOSRestController {
         // Move the file in the uploads folder before persisting the Project entity:
         //$project->upload();
 
-        //$em->persist($lightproject);
+        $em->persist($lightproject);
         //$em->persist($client);
         //$em->persist($timeallocation);
 //        $em->persist($setup);

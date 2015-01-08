@@ -5,16 +5,14 @@ namespace MissionControl\Bundle\ProjectBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-
 /**
  * Lightxmlprojects
  *
  * @ORM\Table(name="lightxmlprojects", uniqueConstraints={@ORM\UniqueConstraint(name="project_id", columns={"project_id"})}, indexes={@ORM\Index(name="fk_projects_setups_idx", columns={"setup"}), @ORM\Index(name="fk_projects_objectives1_idx", columns={"objectives"}), @ORM\Index(name="fk_projects_touchpoints1_idx", columns={"touchpoints"}), @ORM\Index(name="fk_projects_cprattributes1_idx", columns={"cprattributes"}), @ORM\Index(name="fk_projects_budgetallocations1_idx", columns={"budgetallocation"}), @ORM\Index(name="fk_projects_timeallocations1_idx", columns={"timeallocation"})})
  * @ORM\Entity
  */
-class Lightxmlprojects
-{
-    
+class Lightxmlprojects {
+
     public function __construct() {
 //        $this->setup = new ArrayCollection();
 //        $this->objective = new ArrayCollection();
@@ -32,6 +30,13 @@ class Lightxmlprojects
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $projectId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="project_uid", type="integer")
+     */
+    private $projectUniqueId;
 
     /**
      * @var \MissionControl\Bundle\ProjectBundle\Entity\Timeallocations
@@ -93,16 +98,22 @@ class Lightxmlprojects
      */
     private $budgetallocation;
 
-
-
     /**
      * Get projectId
      *
      * @return integer 
      */
-    public function getProjectId()
-    {
+    public function getProjectId() {
         return $this->projectId;
+    }
+
+    /**
+     * Get projectUniqueId
+     *
+     * @return integer 
+     */
+    public function getProjectUniqueId() {
+        return $this->projectUniqueId;
     }
 
     /**
@@ -111,8 +122,7 @@ class Lightxmlprojects
      * @param \MissionControl\Bundle\ProjectBundle\Entity\Timeallocations $timeallocation
      * @return Lightxmlprojects
      */
-    public function setTimeallocation(\MissionControl\Bundle\ProjectBundle\Entity\Timeallocations $timeallocation = null)
-    {
+    public function setTimeallocation(\MissionControl\Bundle\ProjectBundle\Entity\Timeallocations $timeallocation = null) {
         $this->timeallocation = $timeallocation;
 
         return $this;
@@ -123,9 +133,18 @@ class Lightxmlprojects
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\Timeallocations 
      */
-    public function getTimeallocation()
-    {
+    public function getTimeallocation() {
         return $this->timeallocation;
+    }
+
+    /**
+     * Set projectUniqueId
+     *
+     * @return integer 
+     */
+    public function setProjectUniqueId($projectUniqueId) {
+        $this->projectUniqueId = $projectUniqueId;
+        return $this;
     }
 
     /**
@@ -134,8 +153,7 @@ class Lightxmlprojects
      * @param \MissionControl\Bundle\ProjectBundle\Entity\Touchpoints $touchpoints
      * @return Lightxmlprojects
      */
-    public function setTouchpoints(\MissionControl\Bundle\ProjectBundle\Entity\Touchpoints $touchpoints = null)
-    {
+    public function setTouchpoints(\MissionControl\Bundle\ProjectBundle\Entity\Touchpoints $touchpoints = null) {
         $this->touchpoints = $touchpoints;
 
         return $this;
@@ -146,8 +164,7 @@ class Lightxmlprojects
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\Touchpoints 
      */
-    public function getTouchpoints()
-    {
+    public function getTouchpoints() {
         return $this->touchpoints;
     }
 
@@ -157,8 +174,7 @@ class Lightxmlprojects
      * @param \MissionControl\Bundle\ProjectBundle\Entity\Setups $setup
      * @return Lightxmlprojects
      */
-    public function setSetup(\MissionControl\Bundle\ProjectBundle\Entity\Setups $setup = null)
-    {
+    public function setSetup(\MissionControl\Bundle\ProjectBundle\Entity\Setups $setup = null) {
         $this->setup = $setup;
 
         return $this;
@@ -169,8 +185,7 @@ class Lightxmlprojects
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\Setups 
      */
-    public function getSetup()
-    {
+    public function getSetup() {
         return $this->setup;
     }
 
@@ -180,8 +195,7 @@ class Lightxmlprojects
      * @param \MissionControl\Bundle\ProjectBundle\Entity\Objectives $objectives
      * @return Lightxmlprojects
      */
-    public function setObjectives(\MissionControl\Bundle\ProjectBundle\Entity\Objectives $objectives = null)
-    {
+    public function setObjectives(\MissionControl\Bundle\ProjectBundle\Entity\Objectives $objectives = null) {
         $this->objectives = $objectives;
 
         return $this;
@@ -192,8 +206,7 @@ class Lightxmlprojects
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\Objectives 
      */
-    public function getObjectives()
-    {
+    public function getObjectives() {
         return $this->objectives;
     }
 
@@ -203,8 +216,7 @@ class Lightxmlprojects
      * @param \MissionControl\Bundle\ProjectBundle\Entity\Cprattributes $cprattributes
      * @return Lightxmlprojects
      */
-    public function setCprattributes(\MissionControl\Bundle\ProjectBundle\Entity\Cprattributes $cprattributes = null)
-    {
+    public function setCprattributes(\MissionControl\Bundle\ProjectBundle\Entity\Cprattributes $cprattributes = null) {
         $this->cprattributes = $cprattributes;
 
         return $this;
@@ -215,8 +227,7 @@ class Lightxmlprojects
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\Cprattributes 
      */
-    public function getCprattributes()
-    {
+    public function getCprattributes() {
         return $this->cprattributes;
     }
 
@@ -226,8 +237,7 @@ class Lightxmlprojects
      * @param \MissionControl\Bundle\ProjectBundle\Entity\Budgetallocations $budgetallocation
      * @return Lightxmlprojects
      */
-    public function setBudgetallocation(\MissionControl\Bundle\ProjectBundle\Entity\Budgetallocations $budgetallocation = null)
-    {
+    public function setBudgetallocation(\MissionControl\Bundle\ProjectBundle\Entity\Budgetallocations $budgetallocation = null) {
         $this->budgetallocation = $budgetallocation;
 
         return $this;
@@ -238,8 +248,8 @@ class Lightxmlprojects
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\Budgetallocations 
      */
-    public function getBudgetallocation()
-    {
+    public function getBudgetallocation() {
         return $this->budgetallocation;
     }
+
 }
