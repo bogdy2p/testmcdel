@@ -309,7 +309,7 @@ class ProjectController extends FOSRestController {
             $touchpoint_object = new Touchpoints();
             $em = $this->getDoctrine()->getManager();
             $em->persist($touchpoint_object);
-            $em->flush();
+            ////$em->flush();
             // Iterate over Objectivescores , and save them with the id of this touchpoint ! :)
             //print_r(count($touchpoint->ObjectiveScores->double));
             $objectivescores_double = $touchpoint->ObjectiveScores->double;
@@ -359,7 +359,34 @@ class ProjectController extends FOSRestController {
         
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
-        $em->flush();
+       
+        ////////////////////////////////////////////////////////////////    
+        //Assign and persist Project BUDGETALLOCATION Data 
+        ////////////////////////////////////////////////////////////////   
+
+        $budgetallocation_array_from_file = $xml_file_data->BudgetAllocation;
+        foreach ($budgetallocation_array_from_file as $budgetallocation){
+            $budgetallocation_object = new Budgetallocations();
+            $budgetallocation_object->setProjectID($lightproject->getProjectUniqueId());
+            
+            
+            $budget_allocatedtouchpoints_from_file = $budgetallocation->AllocatedTouchpoints->TouchpointAllocation;
+            print_r(count($budget_allocatedtouchpoints_from_file));
+            
+            $budgetallocation_object->setAllocatedtouchpoints(); //CREATE A UNIQUE DATABASE HASH
+            // ALLOCATE THE BUDGETALLOCATEDTOUCHPOINTS -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
+            
+            $budgetallocation_object->setTotal();  //CREATE ANOTHER UNIQUE DATABASE HASH
+            // ALLOCATE THE BUDGET_TOTAL -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
+            //print_r($budgetallocation_object);
+        }
+
+        //print_r($budgetallocation_array_from_file);
+
+
+
+//$em->flush();
+        
         
         //print_r($touchpoints_array_from_file);
          die();
@@ -368,6 +395,9 @@ class ProjectController extends FOSRestController {
  
         $project->setUser($user);
 
+        
+        
+        
         // Get validator service to check for errors:
         $validator = $this->get('validator');
         $errors = $validator->validate($project);

@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="budgetallocations", indexes={@ORM\Index(name="fk_budgetallocations_budgetallocationstotal1_idx", columns={"total"}), @ORM\Index(name="fk_budgetallocations_allocatedtouchpoints1_idx", columns={"allocatedtouchpoints"})})
  * @ORM\Entity
  */
-class Budgetallocations
-{
+class Budgetallocations {
+
     /**
      * @var integer
      *
@@ -41,15 +41,40 @@ class Budgetallocations
      */
     private $total;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="project_id", type="string", nullable=false)
+     */
+    private $projectId;
 
+    /**
+     * Set ProjectId
+     *
+     * @param string $projectId
+     * @return Objectives
+     */
+    public function setProjectId($projectId) {
+        $this->projectId = $projectId;
+
+        return $this;
+    }
+
+    /**
+     * Get ProjectId
+     *
+     * @return string 
+     */
+    public function getProjectId() {
+        return $this->projectId;
+    }
 
     /**
      * Get budgetallocationId
      *
      * @return integer 
      */
-    public function getBudgetallocationId()
-    {
+    public function getBudgetallocationId() {
         return $this->budgetallocationId;
     }
 
@@ -59,8 +84,7 @@ class Budgetallocations
      * @param \MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocatedtouchpoints $allocatedtouchpoints
      * @return Budgetallocations
      */
-    public function setAllocatedtouchpoints(\MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocatedtouchpoints $allocatedtouchpoints = null)
-    {
+    public function setAllocatedtouchpoints(\MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocatedtouchpoints $allocatedtouchpoints = null) {
         $this->allocatedtouchpoints = $allocatedtouchpoints;
 
         return $this;
@@ -71,8 +95,7 @@ class Budgetallocations
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocatedtouchpoints 
      */
-    public function getAllocatedtouchpoints()
-    {
+    public function getAllocatedtouchpoints() {
         return $this->allocatedtouchpoints;
     }
 
@@ -82,8 +105,7 @@ class Budgetallocations
      * @param \MissionControl\Bundle\ProjectBundle\Entity\BudgetTotal $total
      * @return Budgetallocations
      */
-    public function setTotal(\MissionControl\Bundle\ProjectBundle\Entity\BudgetTotal $total = null)
-    {
+    public function setTotal(\MissionControl\Bundle\ProjectBundle\Entity\BudgetTotal $total = null) {
         $this->total = $total;
 
         return $this;
@@ -94,8 +116,8 @@ class Budgetallocations
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\BudgetTotal 
      */
-    public function getTotal()
-    {
+    public function getTotal() {
         return $this->total;
     }
+
 }
