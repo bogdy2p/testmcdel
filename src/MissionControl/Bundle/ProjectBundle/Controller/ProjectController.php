@@ -291,8 +291,7 @@ class ProjectController extends FOSRestController {
             $objective_object->setSelected($objective->Selected);
             //print_r($objective_object);
             $em = $this->getDoctrine()->getManager();
-            $em->persist($objective_object);
-         //////   $em->flush();
+            //---//$em->persist($objective_object);
         }
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
@@ -309,7 +308,7 @@ class ProjectController extends FOSRestController {
             $touchpoint_object = new Touchpoints();
             $touchpoint_object->setProjectId($lightproject->getProjectUniqueId());
             $touchpoint_object->setName($touchpoint->Name);
-            $touchpoint_object->setLocalname($touchpoint->Localname);
+            $touchpoint_object->setLocalname($touchpoint->LocalName);
             $touchpoint_object->setHtmlcolor($touchpoint->HtmlColor);
             $touchpoint_object->setSelected($touchpoint->Selected);    
             $em = $this->getDoctrine()->getManager();
@@ -323,7 +322,7 @@ class ProjectController extends FOSRestController {
                 $objectivescore_object = new Objectivescores();
                 $objectivescore_object->setTouchpointId($touchpoint_object->getTouchpointId());
                 $objectivescore_object->setObjectivescoreValue($objectivescore->__toString());
-                $em->persist($objectivescore_object);
+                //---//$em->persist($objectivescore_object);
             }
 
             // Iterate over AttributeScores , and save them with the id of this touchpoint ! :)
@@ -332,7 +331,7 @@ class ProjectController extends FOSRestController {
                 $attributescore_object = new Attributescores();
                 $attributescore_object->setTouchpointId($touchpoint_object->getTouchpointId());
                 $attributescore_object->setAttributescoreValue($attributescore->__toString());
-                $em->persist($attributescore_object);
+                //---//$em->persist($attributescore_object);
             }
             
                   
@@ -355,7 +354,7 @@ class ProjectController extends FOSRestController {
             $cprattribute_object->setName($cprattribute->Name);
             $cprattribute_object->setDescription($cprattribute->Description);
             $cprattribute_object->setSelected($cprattribute->Selected);
-            $em->persist($cprattribute_object);
+            //---//$em->persist($cprattribute_object);
         }
         
         ////////////////////////////////////////////////////////////////
@@ -373,26 +372,27 @@ class ProjectController extends FOSRestController {
             //print_r($budgetallocation_object);
             $budget_allocatedtouchpoints_from_file = $budgetallocation->AllocatedTouchpoints->TouchpointAllocation;
             
-            foreach ($budget_allocatedtouchpoints_from_file as $touchpointallocation){
-                
-                $touchpointallocation_object = new Touchpointallocations();
-                
-                //$touchpointallocation_object->setBudgetID();
-                //$touchpointallocation_object->setTouchpointname('asd');
-                //$touchpointallocation_object->setAllocation('12');
-                
-              print_r($touchpointallocation_object);  
-                
-                
-            }
-            //print_r(count($budget_allocatedtouchpoints_from_file));
+//            foreach ($budget_allocatedtouchpoints_from_file as $touchpointallocation){
+//                
+//                $touchpointallocation_object = new Touchpointallocations();
+//                
+//                
+//                $touchpointallocation_object->setBudgetId('1234');
+//                $touchpointallocation_object->setTouchpointname($touchpointallocation->TouchpointName);
+//                //$touchpointallocation_object->setAllocation('12');
+//                
+//                print_r($touchpointallocation_object);  
+//                $em->persist($touchpointallocation_object);
+//                
+//            }
+            
             
             $budgetallocation_object->setAllocatedtouchpoints(); //CREATE A UNIQUE DATABASE HASH
             // ALLOCATE THE BUDGETALLOCATEDTOUCHPOINTS -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
             
             $budgetallocation_object->setTotal();  //CREATE ANOTHER UNIQUE DATABASE HASH
             // ALLOCATE THE BUDGET_TOTAL -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
-            print_r($budgetallocation_object);
+            //print_r($budgetallocation_object);
             $em->persist($budgetallocation_object);
             
         }

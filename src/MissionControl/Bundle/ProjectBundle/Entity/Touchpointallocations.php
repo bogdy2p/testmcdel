@@ -38,7 +38,33 @@ class Touchpointallocations
      */
     private $allocation;
 
+/**
+     * @var integer
+     *
+     * @ORM\Column(name="budget_id", type="string", nullable=false)
+     */
+    private $budgetId;
 
+    /**
+     * Set BudgetId
+     *
+     * @param string $BudgetId
+     * @return Objectives
+     */
+    public function setBudgetId($budgetId) {
+        $this->budgetId = $budgetId;
+
+        return $this;
+    }
+
+    /**
+     * Get BudgetId
+     *
+     * @return string 
+     */
+    public function getProjectId() {
+        return $this->budgetId;
+    }
 
     /**
      * Set touchpointname
