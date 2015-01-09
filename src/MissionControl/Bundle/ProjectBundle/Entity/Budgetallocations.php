@@ -22,12 +22,9 @@ class Budgetallocations {
     private $budgetallocationId;
 
     /**
-     * @var \MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocatedtouchpoints
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocatedtouchpoints")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="allocatedtouchpoints", referencedColumnName="allocatedtouchpoint_id")
-     * })
+     * @ORM\Column(name="allocatedtouchpoints", type="string", nullable=false)
      */
     private $allocatedtouchpoints;
 
@@ -80,11 +77,11 @@ class Budgetallocations {
 
     /**
      * Set allocatedtouchpoints
-     *
-     * @param \MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocatedtouchpoints $allocatedtouchpoints
+     * 
+     * @param string $allocatedtouchpoints
      * @return Budgetallocations
      */
-    public function setAllocatedtouchpoints(\MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocatedtouchpoints $allocatedtouchpoints = null) {
+    public function setAllocatedtouchpoints($allocatedtouchpoints) {
         $this->allocatedtouchpoints = $allocatedtouchpoints;
 
         return $this;
@@ -102,10 +99,10 @@ class Budgetallocations {
     /**
      * Set total
      *
-     * @param \MissionControl\Bundle\ProjectBundle\Entity\BudgetTotal $total
+     * @param string $total
      * @return Budgetallocations
      */
-    public function setTotal(\MissionControl\Bundle\ProjectBundle\Entity\BudgetTotal $total = null) {
+    public function setTotal($total) {
         $this->total = $total;
 
         return $this;

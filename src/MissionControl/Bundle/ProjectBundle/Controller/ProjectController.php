@@ -23,7 +23,7 @@ use MissionControl\Bundle\ProjectBundle\Entity\Touchpointtimeallocation;
 use MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocatedtouchpoints;
 use MissionControl\Bundle\ProjectBundle\Entity\BudgetTotal;
 use MissionControl\Bundle\ProjectBundle\Entity\Allocations;
-use MissionControl\Bundle\ProjectBundle\Entity\Touchpointallocations;
+use MissionControl\Bundle\ProjectBundle\Entity\BudgetTouchpointallocations;
 use MissionControl\Bundle\ProjectBundle\Entity\Results;
 use MissionControl\Bundle\ProjectBundle\Entity\Individualperformances;
 
@@ -291,7 +291,7 @@ class ProjectController extends FOSRestController {
             $objective_object->setSelected($objective->Selected);
             //print_r($objective_object);
             $em = $this->getDoctrine()->getManager();
-            //---//$em->persist($objective_object);
+            $em->persist($objective_object);
         }
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
@@ -322,7 +322,7 @@ class ProjectController extends FOSRestController {
                 $objectivescore_object = new Objectivescores();
                 $objectivescore_object->setTouchpointId($touchpoint_object->getTouchpointId());
                 $objectivescore_object->setObjectivescoreValue($objectivescore->__toString());
-                //---//$em->persist($objectivescore_object);
+                $em->persist($objectivescore_object);
             }
 
             // Iterate over AttributeScores , and save them with the id of this touchpoint ! :)
@@ -331,7 +331,7 @@ class ProjectController extends FOSRestController {
                 $attributescore_object = new Attributescores();
                 $attributescore_object->setTouchpointId($touchpoint_object->getTouchpointId());
                 $attributescore_object->setAttributescoreValue($attributescore->__toString());
-                //---//$em->persist($attributescore_object);
+                $em->persist($attributescore_object);
             }
             
                   
@@ -354,48 +354,59 @@ class ProjectController extends FOSRestController {
             $cprattribute_object->setName($cprattribute->Name);
             $cprattribute_object->setDescription($cprattribute->Description);
             $cprattribute_object->setSelected($cprattribute->Selected);
-            //---//$em->persist($cprattribute_object);
+            $em->persist($cprattribute_object);
         }
         
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
        
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////    
-        //Assign and persist Project BUDGETALLOCATION Data 
+        ////Assign and persist Project BUDGETALLOCATION Data 
+        ////Assign and persist Project BUDGETALLOCATION Data 
+        ////Assign and persist Project BUDGETALLOCATION Data 
         ////////////////////////////////////////////////////////////////   
-
-        $budgetallocation_array_from_file = $xml_file_data->BudgetAllocation;
-        foreach ($budgetallocation_array_from_file as $budgetallocation){
-            $budgetallocation_object = new Budgetallocations();
-            $budgetallocation_object->setProjectID($lightproject->getProjectUniqueId());
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        
+        //---- THE BUDGET ALLOCATION IS ONLY 1 FOR THE WHOLE PROJECT SO NO NEED FOR another FOREACH.
+        
+//        $budgetallocation_array_from_file = $xml_file_data->BudgetAllocation;
+//        
+//        $budgetallocation_object = new Budgetallocations();
+//        $budgetallocation_object->setProjectID($lightproject->getProjectUniqueId());
+//        $budgetallocation_object->setAllocatedtouchpoints('123');
+//        $budgetallocation_object->setTotal('asd');
+        
             
-            //print_r($budgetallocation_object);
-            $budget_allocatedtouchpoints_from_file = $budgetallocation->AllocatedTouchpoints->TouchpointAllocation;
+       // $budget_allocatedtouchpoints_from_file = $budgetallocation_array_from_file->AllocatedTouchpoints->TouchpointAllocation;
             
 //            foreach ($budget_allocatedtouchpoints_from_file as $touchpointallocation){
 //                
-//                $touchpointallocation_object = new Touchpointallocations();
+//                $budgetallocatedtouchpoint_object = new BudgetAllocatedtouchpoints();
 //                
-//                
-//                $touchpointallocation_object->setBudgetId('1234');
-//                $touchpointallocation_object->setTouchpointname($touchpointallocation->TouchpointName);
+////                $budgetallocatedtouchpoint_object->setTouchpointname($touchpointallocation->TouchpointName);
+////                $budgetallocatedtouchpoint_object->setAllocation($touchpointallocation->Allocation);
+////                $budgetallocatedtouchpoint_object->setBudgetId($lightproject->getProjectUniqueId());
+//                //$budgetallocatedtouchpoint_object->setTouchpointname($touchpointallocation->TouchpointName);
 //                //$touchpointallocation_object->setAllocation('12');
 //                
-//                print_r($touchpointallocation_object);  
-//                $em->persist($touchpointallocation_object);
+//                print_r($budgetallocatedtouchpoint_object);  
+//                //$em->persist($budgetallocatedtouchpoint_object);
 //                
 //            }
+//            
             
+//            $budgetallocation_object->setAllocatedtouchpoints('asd'); //CREATE A UNIQUE DATABASE HASH
+//            // ALLOCATE THE BUDGETALLOCATEDTOUCHPOINTS -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
+//            
+//            $budgetallocation_object->setTotal('123');  //CREATE ANOTHER UNIQUE DATABASE HASH
+//            // ALLOCATE THE BUDGET_TOTAL -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
+//            //print_r($budgetallocation_object);
+//            $em->persist($budgetallocation_object);
             
-            $budgetallocation_object->setAllocatedtouchpoints(); //CREATE A UNIQUE DATABASE HASH
-            // ALLOCATE THE BUDGETALLOCATEDTOUCHPOINTS -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
-            
-            $budgetallocation_object->setTotal();  //CREATE ANOTHER UNIQUE DATABASE HASH
-            // ALLOCATE THE BUDGET_TOTAL -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
-            //print_r($budgetallocation_object);
-            $em->persist($budgetallocation_object);
-            
-        }
+        
 
         //print_r($budgetallocation_array_from_file);
         $em->flush();

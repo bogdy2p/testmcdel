@@ -10,59 +10,111 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="budget_allocatedtouchpoints")
  * @ORM\Entity
  */
-class BudgetAllocatedtouchpoints
-{
+class BudgetAllocatedtouchpoints {
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="touchpointname", type="string", length=255, nullable=true)
+     */
+    private $touchpointname;
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="allocatedtouchpoint_id", type="integer")
+     * @ORM\Column(name="touchpointallocation_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $allocatedtouchpointId;
+    private $touchpointallocationId;
 
     /**
-     * @var \MissionControl\Bundle\ProjectBundle\Entity\Touchpointallocations
+     * @var \MissionControl\Bundle\ProjectBundle\Entity\Allocations
      *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Touchpointallocations")
+     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Allocations")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="touchpointallocation", referencedColumnName="touchpointallocation_id")
+     *   @ORM\JoinColumn(name="allocation", referencedColumnName="allocation_id")
      * })
      */
-    private $touchpointallocation;
-
-
+    private $allocation;
 
     /**
-     * Get allocatedtouchpointId
+     * @var integer
      *
-     * @return integer 
+     * @ORM\Column(name="budget_id", type="string", nullable=false)
      */
-    public function getAllocatedtouchpointId()
-    {
-        return $this->allocatedtouchpointId;
-    }
+    private $budgetId;
 
     /**
-     * Set touchpointallocation
+     * Set BudgetId
      *
-     * @param \MissionControl\Bundle\ProjectBundle\Entity\Touchpointallocations $touchpointallocation
-     * @return BudgetAllocatedtouchpoints
+     * @param string $BudgetId
+     * @return Objectives
      */
-    public function setTouchpointallocation(\MissionControl\Bundle\ProjectBundle\Entity\Touchpointallocations $touchpointallocation = null)
-    {
-        $this->touchpointallocation = $touchpointallocation;
+    public function setBudgetId($budgetId) {
+        $this->budgetId = $budgetId;
 
         return $this;
     }
 
     /**
-     * Get touchpointallocation
+     * Get BudgetId
      *
-     * @return \MissionControl\Bundle\ProjectBundle\Entity\Touchpointallocations 
+     * @return string 
      */
-    public function getTouchpointallocation()
-    {
-        return $this->touchpointallocation;
+    public function getProjectId() {
+        return $this->budgetId;
     }
+
+    /**
+     * Set touchpointname
+     *
+     * @param string $touchpointname
+     * @return Touchpointallocations
+     */
+    public function setTouchpointname($touchpointname) {
+        $this->touchpointname = $touchpointname;
+
+        return $this;
+    }
+
+    /**
+     * Get touchpointname
+     *
+     * @return string 
+     */
+    public function getTouchpointname() {
+        return $this->touchpointname;
+    }
+
+    /**
+     * Get touchpointallocationId
+     *
+     * @return integer 
+     */
+    public function getTouchpointallocationId() {
+        return $this->touchpointallocationId;
+    }
+
+    /**
+     * Set allocation
+     *
+     * @param string $allocation
+     * @return Touchpointallocations
+     */
+    public function setAllocation($allocation) {
+        $this->allocation = $allocation;
+
+        return $this;
+    }
+
+    /**
+     * Get allocation
+     *
+     * @return \MissionControl\Bundle\ProjectBundle\Entity\Allocations 
+     */
+    public function getAllocation() {
+        return $this->allocation;
+    }
+
 }
