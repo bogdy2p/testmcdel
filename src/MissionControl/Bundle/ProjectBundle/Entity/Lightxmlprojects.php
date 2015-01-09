@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Lightxmlprojects {
 
     public function __construct() {
-//        $this->setup = new ArrayCollection();
+          $this->setup = new ArrayCollection();
           $this->objectives = new ArrayCollection();
           //$this->touchpoints = new ArrayCollection();
           //$this->cprattributes = new ArrayCollection();

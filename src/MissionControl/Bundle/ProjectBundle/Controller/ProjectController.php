@@ -307,9 +307,14 @@ class ProjectController extends FOSRestController {
         foreach ($touchpoints_array_from_file as $touchpoint){
             
             $touchpoint_object = new Touchpoints();
+            $touchpoint_object->setProjectId($lightproject->getProjectUniqueId());
+            $touchpoint_object->setName($touchpoint->Name);
+            $touchpoint_object->setLocalname($touchpoint->Localname);
+            $touchpoint_object->setHtmlcolor($touchpoint->HtmlColor);
+            $touchpoint_object->setSelected($touchpoint->Selected);    
             $em = $this->getDoctrine()->getManager();
             $em->persist($touchpoint_object);
-            ////$em->flush();
+            $em->flush();
             // Iterate over Objectivescores , and save them with the id of this touchpoint ! :)
             //print_r(count($touchpoint->ObjectiveScores->double));
             $objectivescores_double = $touchpoint->ObjectiveScores->double;
@@ -330,11 +335,7 @@ class ProjectController extends FOSRestController {
                 $em->persist($attributescore_object);
             }
             
-            $touchpoint_object->setProjectId($lightproject->getProjectUniqueId());
-            $touchpoint_object->setName($touchpoint->Name);
-            $touchpoint_object->setLocalname($touchpoint->Localname);
-            $touchpoint_object->setHtmlcolor($touchpoint->HtmlColor);
-            $touchpoint_object->setSelected($touchpoint->Selected);          
+                  
           
         }
         ////////////////////////////////////////////////////////////////
@@ -369,34 +370,42 @@ class ProjectController extends FOSRestController {
             $budgetallocation_object = new Budgetallocations();
             $budgetallocation_object->setProjectID($lightproject->getProjectUniqueId());
             
-            
+            //print_r($budgetallocation_object);
             $budget_allocatedtouchpoints_from_file = $budgetallocation->AllocatedTouchpoints->TouchpointAllocation;
-            print_r(count($budget_allocatedtouchpoints_from_file));
+            
+            foreach ($budget_allocatedtouchpoints_from_file as $touchpointallocation){
+                
+                $touchpointallocation_object = new Touchpointallocations();
+                
+                //$touchpointallocation_object->setBudgetID();
+                //$touchpointallocation_object->setTouchpointname('asd');
+                //$touchpointallocation_object->setAllocation('12');
+                
+              print_r($touchpointallocation_object);  
+                
+                
+            }
+            //print_r(count($budget_allocatedtouchpoints_from_file));
             
             $budgetallocation_object->setAllocatedtouchpoints(); //CREATE A UNIQUE DATABASE HASH
             // ALLOCATE THE BUDGETALLOCATEDTOUCHPOINTS -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
             
             $budgetallocation_object->setTotal();  //CREATE ANOTHER UNIQUE DATABASE HASH
             // ALLOCATE THE BUDGET_TOTAL -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
-            //print_r($budgetallocation_object);
+            print_r($budgetallocation_object);
+            $em->persist($budgetallocation_object);
+            
         }
 
         //print_r($budgetallocation_array_from_file);
-
-
-
-//$em->flush();
-        
+        $em->flush();
+       
         
         //print_r($touchpoints_array_from_file);
          die();
      
-        
- 
-        $project->setUser($user);
 
-        
-        
+        $project->setUser($user);
         
         // Get validator service to check for errors:
         $validator = $this->get('validator');

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * BudgetTotal
  *
- * @ORM\Table(name="budget_total", indexes={@ORM\Index(name="fk_budgetallocationstotal_allocations1_idx", columns={"allocation"})})
+ * @ORM\Table(name="budget_total")
  * @ORM\Entity
  */
 class BudgetTotal

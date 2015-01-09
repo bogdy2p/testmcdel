@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TimeTotal
  *
- * @ORM\Table(name="time_total", indexes={@ORM\Index(name="fk_timeallocationstotal_allocations1_idx", columns={"allocationbyperiod"})})
+ * @ORM\Table(name="time_total")
  * @ORM\Entity
  */
 class TimeTotal

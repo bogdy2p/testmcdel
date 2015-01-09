@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Touchpoints
  *
- * @ORM\Table(name="touchpoints", indexes={@ORM\Index(name="fk_touchpoints_objectivescores1_idx", columns={"objectivescores"}), @ORM\Index(name="fk_touchpoints_attributescores1_idx", columns={"attributescores"})})
+ * @ORM\Table(name="touchpoints")
  * @ORM\Entity
- */
+ */ 
 class Touchpoints {
 
     /**
@@ -48,21 +48,6 @@ class Touchpoints {
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $touchpointId;
-
-    /**
-     * @var integer
-     *
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="attributescores", referencedColumnName="attributescore_id")
-     * })
-     */
-    //private $attributescores;
-
-    /**
-     * @var integer
-     *
-     */
-    //private $objectivescores;
 
     /**
      * @var integer
@@ -183,48 +168,6 @@ class Touchpoints {
      */
     public function getTouchpointId() {
         return $this->touchpointId;
-    }
-
-    /**
-     * Set attributescores
-     *
-     * @param \MissionControl\Bundle\ProjectBundle\Entity\Attributescores $attributescores
-     * @return Touchpoints
-     */
-    public function setAttributescores(\MissionControl\Bundle\ProjectBundle\Entity\Attributescores $attributescores = null) {
-        $this->attributescores = $attributescores;
-
-        return $this;
-    }
-
-    /**
-     * Get attributescores
-     *
-     * @return \MissionControl\Bundle\ProjectBundle\Entity\Attributescores 
-     */
-    public function getAttributescores() {
-        return $this->attributescores;
-    }
-
-    /**
-     * Set objectivescores
-     *
-     * @param \MissionControl\Bundle\ProjectBundle\Entity\Objectivescores $objectivescores
-     * @return Touchpoints
-     */
-    public function setObjectivescores(\MissionControl\Bundle\ProjectBundle\Entity\Objectivescores $objectivescores = null) {
-        $this->objectivescores = $objectivescores;
-
-        return $this;
-    }
-
-    /**
-     * Get objectivescores
-     *
-     * @return \MissionControl\Bundle\ProjectBundle\Entity\Objectivescores 
-     */
-    public function getObjectivescores() {
-        return $this->objectivescores;
     }
 
 }

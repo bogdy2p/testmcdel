@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * BudgetAllocatedtouchpoints
  *
- * @ORM\Table(name="budget_allocatedtouchpoints", indexes={@ORM\Index(name="fk_allocatedtouchpoints_touchpointallocations1_idx", columns={"touchpointallocation"})})
+ * @ORM\Table(name="budget_allocatedtouchpoints")
  * @ORM\Entity
  */
 class BudgetAllocatedtouchpoints
