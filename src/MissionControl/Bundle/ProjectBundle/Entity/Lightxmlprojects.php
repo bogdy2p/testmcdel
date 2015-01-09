@@ -15,11 +15,11 @@ class Lightxmlprojects {
 
     public function __construct() {
 //        $this->setup = new ArrayCollection();
-//        $this->objective = new ArrayCollection();
-//        $this->touchpoints = new ArrayCollection();
-//        $this->cprattributes = new ArrayCollection();
-//        $this->budgetallocation = new ArrayCollection();
-//        $this->timeallocation = new ArrayCollection();
+          $this->objectives = new ArrayCollection();
+          //$this->touchpoints = new ArrayCollection();
+          //$this->cprattributes = new ArrayCollection();
+          //$this->budgetallocation = new ArrayCollection();
+          //$this->timeallocation = new ArrayCollection();
     }
 
     /**

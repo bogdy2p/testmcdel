@@ -280,146 +280,53 @@ class ProjectController extends FOSRestController {
         //Assign Project OBJECTIVES Data 
         ////////////////////////////////////////////////////////////////
             
+         
+         
         $objectives_array_from_file = $xml_file_data->Objectives->Objective;
+        //$objectives_array_from_file = $xml_file_data->Objectives->Objective;
+        
+        foreach ($objectives_array_from_file as $objective) {
+            $objective_object = new Objectives();
+            $objective_object->setProjectId($lightproject->getProjectUniqueId());
+            $objective_object->setName($objective->Name);
+            $objective_object->setHtmlcolor($objective->HtmlColor);
+            $objective_object->setScore($objective->Score);
+            $objective_object->setSelected($objective->Selected);
+            print_r($objective_object);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($objective_object);
+            $em->flush();
+        }
+        
+        
+        
+        //print_r($objectives_array_from_file);
+        
+        die();
+        
+        
         $number_of_objectives_from_file = count($objectives_array_from_file);
         
         for ($i=0;$i<$number_of_objectives_from_file;$i++) {
-             $obiectiv = new Objectives();
-             $obiectiv->setProjectId($lightproject->getProjectUniqueId());
-             $obiectiv->setHtmlcolor($xml_file_data->Objectives->Objective[$i]->HtmlColor);
-             $obiectiv->setName($xml_file_data->Objectives->Objective[$i]->Name);
-             $obiectiv->setScore($xml_file_data->Objectives->Objective[$i]->Score);
-             $obiectiv->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
+             $obiectiv[$i] = new Objectives();
+             $obiectiv[$i]->setProjectId($lightproject->getProjectUniqueId());
+             $obiectiv[$i]->setHtmlcolor($xml_file_data->Objectives->Objective[$i]->HtmlColor);
+             $obiectiv[$i]->setName($xml_file_data->Objectives->Objective[$i]->Name);
+             $obiectiv[$i]->setScore($xml_file_data->Objectives->Objective[$i]->Score);
+             $obiectiv[$i]->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
              //!!!PERSIST HERE. // Must/should add some validation !!!
              $em_test = $this->getDoctrine()->getManager();
-             $em_test->persist($obiectiv);
+             //$em_test->persist($obiectiv);
              $em_test->flush();
         }
-        $lightproject->setObjectives($obiectiv);
+        $lightproject->setObjectives($obiectiv[0]);
         
         
         ////////////////////////////////////////////////////////////////    
         //Assign Project TOUCHPOINTS Data 
         ////////////////////////////////////////////////////////////////
         
-        
-        $touchpoints_array_from_file = $xml_file_data->Touchpoints->Touchpoint;
-        $number_of_touchpoints = count($touchpoints_array_from_file);
-        //print_r($number_of_touchpoints);
-        
-       for ($i=0;$i<$number_of_touchpoints;$i++) {
-             $touchpoint[$i] = new Touchpoints();
-             
-             $touchpoint[$i]->setProjectId($lightproject->getProjectUniqueId());
-             //Add column for project id to touchpoints.
-                //$touchpoint[$i]->setProjectId($project->getId());
-             $touchpoint[$i]->setName($xml_file_data->Touchpoints->Touchpoint[$i]->Name);
-             $touchpoint[$i]->setLocalname($xml_file_data->Touchpoints->Touchpoint[$i]->LocalName);
-             $touchpoint[$i]->setHtmlcolor($xml_file_data->Touchpoints->Touchpoint[$i]->HtmlColor);
-             $touchpoint[$i]->setSelected($xml_file_data->Touchpoints->Touchpoint[$i]->Selected);
-             //$touchpoint[$i]->set
-             // Count how many objective scores and attributescores a touchpoint has.
-                //?? Is this counting for each or only for the first touchpoint ?? //
-             $objectivescores_number = count($touchpoints_array_from_file->ObjectiveScores->double);
-             $attributescores_number = count($touchpoints_array_from_file->AttributeScores->double);
-             
-             
-             for ($j=0;$j<$objectivescores_number;$j++){
-                 
-                 
-                 $objectivescore[$j] = new Objectivescores();
-                
-                 $objectivescore[$j]->setTouchpointId('123456');
-                 $objectivescore[$j]->setObjectivescoreValue($touchpoints_array_from_file->ObjectiveScores->double[$j]->__toString());
-              
-                         
-                 $touchpoint[$i]->setObjectivescores($objectivescore[$j]);
-
-                 //print_r($touchpoint[$i]);
-                 //$em_test2 = $this->getDoctrine()->getManager();
-                 //$em_test2->persist($touchpoint[$i]);
-                 //$em_test2->flush();
-             }
-             
-             ///print_r($objectivescore[0]);
-             
-//             foreach ($touchpoints_array_from_file->ObjectiveScores as $individual_objectivescore){
-//                 
-//                 
-//                 $objectivescore->setObjectivescoreValue('3');
-//                 
-//                 
-//// THIS IS TOUCHPOINTS -> OBJECTIVESCORES;
-//                 var_dump($individual_objectivescore->double->__toString());
-//                 
-//                 //print_r(count($individual_objectivescore));
-//                 //print_r($individual_touchpoint->ObjectiveScores->double);
-//                 //print_r($individual_touchpoint->AttributeScores->double);
-//             }
-             
-             //die();
-             
-             ///
-             
-             
-             
-             
-             
-             //$touchpoint[$i]->setObjectivescores(new Objectivescores());  // Here should be something ... unique ? :| Like PROJECT ID + Touchpoint ID ?!?!?!
-             //$touchpoint[$i]->setAttributescores(new Attributescores());
-           
-             
-             
-             // TRY TO PERSIST HERE.
-             //$em_test = $this->getDoctrine()->getManager();
-//             $em_test->persist($touchpoint[$i]);
-             //$em_test->flush();
-//             print_r($touchpoint[$i]);
-             //print_r($touchpoints_array_from_file);
-        }
-        //print_r($objectives);
-        //print_r($objectivescores_number);
-        
-        
-        ////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////
-        
-        ////////////////////////////////////////////////////////////////    
-        //Assign Project INDIVIDUALPERFORMANCE Data 
-        ////////////////////////////////////////////////////////////////
-        
-        //$individualperformance_array = $xml_file_data->TimeAllocation->Total->AllocationByPeriod->AllocationData->Result->IndividualPerformance;
-        
-        //print_r($individualperformance_array);
-        
-         ////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////
-//        foreach ($xml_file_data->children() as $second) {
-//            echo '2 ------------------------------';
-//            echo $second->getName();
-//                     
-//            foreach ($second->children() as $third) {
-//                //print_r('3...');
-//                print_r($third->getName().'=='.$third->__toString());
-//                
-//                foreach ($third->children() as $fourth) {
-//                    echo '<br />4...........'.$fourth->getName();
-//                    
-//                    foreach ($fourth->children() as $fifth) {
-//                        echo '<br /> 5 ...........................'.$fifth->__toString();
-//                        
-//                    }
-//                }
-//            }
-//            //print_r($second->children()->getName());
-//        }
-        
-        
-        //print_r($xml_file_data->children());
-        //die();
-            
-    
-                           
+ 
         $project->setUser($user);
 
         // Get validator service to check for errors:
