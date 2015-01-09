@@ -230,7 +230,7 @@ class ProjectController extends FOSRestController {
         
 // setting level 2 data of the lightproject
           $lightproject->setProjectUniqueId($project->getId());
-          //$lightproject->setSetup($setup);
+          $lightproject->setSetup($setup);
           $lightproject->setObjectives($objectives);
           $lightproject->setTouchpoints($touchpoints);
           $lightproject->setCprattributes($cprattributes);
@@ -277,13 +277,12 @@ class ProjectController extends FOSRestController {
                       
             
         ////////////////////////////////////////////////////////////////    
-        //Assign Project OBJECTIVES Data 
+        //Assign and persist Project OBJECTIVES Data 
         ////////////////////////////////////////////////////////////////
             
          
          
         $objectives_array_from_file = $xml_file_data->Objectives->Objective;
-        //$objectives_array_from_file = $xml_file_data->Objectives->Objective;
         
         foreach ($objectives_array_from_file as $objective) {
             $objective_object = new Objectives();
@@ -292,36 +291,57 @@ class ProjectController extends FOSRestController {
             $objective_object->setHtmlcolor($objective->HtmlColor);
             $objective_object->setScore($objective->Score);
             $objective_object->setSelected($objective->Selected);
-            print_r($objective_object);
+            //print_r($objective_object);
+         //////   $em = $this->getDoctrine()->getManager();
+         //////   $em->persist($objective_object);
+         //////   $em->flush();
+        }
+        
+        
+       
+        
+        $touchpoints_array_from_file = $xml_file_data->Touchpoints->Touchpoint;
+        foreach ($touchpoints_array_from_file as $touchpoint){
+            
+            $touchpoint_object = new Touchpoints();
             $em = $this->getDoctrine()->getManager();
-            $em->persist($objective_object);
+            $em->persist($touchpoint_object);
             $em->flush();
+            // Iterate over Objectivescores , and save them with the id of this touchpoint ! :)
+            //print_r(count($touchpoint->ObjectiveScores->double));
+            $objectivescores_double = $touchpoint->ObjectiveScores->double;
+            foreach ($objectivescores_double as $objectivescore) {
+                
+                $objectivescore_object = new Objectivescores();
+                $objectivescore_object->setTouchpointId($touchpoint_object->getTouchpointId());
+                $objectivescore_object->setObjectivescoreValue($objectivescore->__toString());
+                $em->persist($objectivescore_object);
+            }
+
+            // Iterate over AttributeScores , and save them with the id of this touchpoint ! :)
+            $attributescores_double = $touchpoint->AttributeScores->double;
+            foreach ($attributescores_double as $attributescore){
+                $attributescore_object = new Attributescores();
+                $attributescore_object->setTouchpointId($touchpoint_object->getTouchpointId());
+                $attributescore_object->setAttributescoreValue($attributescore->__toString());
+                $em->persist($attributescore_object);
+            }
+            
+            
+            
+            
+            
+            
+            $touchpoint_object->setProjectId($lightproject->getProjectUniqueId());
+            $touchpoint_object->setName($touchpoint->Name);
+            $touchpoint_object->setLocalname($touchpoint->Localname);
+            $touchpoint_object->setHtmlcolor($touchpoint->HtmlColor);
+            $touchpoint_object->setSelected($touchpoint->Selected);          
+          
         }
-        
-        
-        
-        //print_r($objectives_array_from_file);
-        
-        die();
-        
-        
-        $number_of_objectives_from_file = count($objectives_array_from_file);
-        
-        for ($i=0;$i<$number_of_objectives_from_file;$i++) {
-             $obiectiv[$i] = new Objectives();
-             $obiectiv[$i]->setProjectId($lightproject->getProjectUniqueId());
-             $obiectiv[$i]->setHtmlcolor($xml_file_data->Objectives->Objective[$i]->HtmlColor);
-             $obiectiv[$i]->setName($xml_file_data->Objectives->Objective[$i]->Name);
-             $obiectiv[$i]->setScore($xml_file_data->Objectives->Objective[$i]->Score);
-             $obiectiv[$i]->setSelected($xml_file_data->Objectives->Objective[$i]->Selected);
-             //!!!PERSIST HERE. // Must/should add some validation !!!
-             $em_test = $this->getDoctrine()->getManager();
-             //$em_test->persist($obiectiv);
-             $em_test->flush();
-        }
-        $lightproject->setObjectives($obiectiv[0]);
-        
-        
+        $em->flush();
+        //print_r($touchpoints_array_from_file);
+         die();
         ////////////////////////////////////////////////////////////////    
         //Assign Project TOUCHPOINTS Data 
         ////////////////////////////////////////////////////////////////

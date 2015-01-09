@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="attributescores")
  * @ORM\Entity
  */
-class Attributescores
-{
+class Attributescores {
+
     /**
      * @var float
      *
@@ -28,7 +28,33 @@ class Attributescores
      */
     private $attributescoreId;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="touchpoint_id", type="integer")
+     */
+    private $touchpointId;
 
+    /**
+     * Set touchpointId
+     *
+     * @param float $touchpointId
+     * @return Objectivescores
+     */
+    public function setTouchpointId($touchpointId) {
+        $this->touchpointId = $touchpointId;
+
+        return $this;
+    }
+
+    /**
+     * Get touchpointId
+     *
+     * @return float 
+     */
+    public function getTouchpointId() {
+        return $this->touchpointId;
+    }
 
     /**
      * Set attributescoreValue
@@ -36,8 +62,7 @@ class Attributescores
      * @param float $attributescoreValue
      * @return Attributescores
      */
-    public function setAttributescoreValue($attributescoreValue)
-    {
+    public function setAttributescoreValue($attributescoreValue) {
         $this->attributescoreValue = $attributescoreValue;
 
         return $this;
@@ -48,8 +73,7 @@ class Attributescores
      *
      * @return float 
      */
-    public function getAttributescoreValue()
-    {
+    public function getAttributescoreValue() {
         return $this->attributescoreValue;
     }
 
@@ -58,8 +82,8 @@ class Attributescores
      *
      * @return integer 
      */
-    public function getAttributescoreId()
-    {
+    public function getAttributescoreId() {
         return $this->attributescoreId;
     }
+
 }

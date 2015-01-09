@@ -50,24 +50,19 @@ class Touchpoints {
     private $touchpointId;
 
     /**
-     * @var \MissionControl\Bundle\ProjectBundle\Entity\Attributescores
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Attributescores", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="attributescores", referencedColumnName="attributescore_id")
      * })
      */
-    private $attributescores;
+    //private $attributescores;
 
     /**
-     * @var \MissionControl\Bundle\ProjectBundle\Entity\Objectivescores
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Objectivescores", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objectivescores", referencedColumnName="objectivescore_id")
-     * })
      */
-    private $objectivescores;
+    //private $objectivescores;
 
     /**
      * @var integer
