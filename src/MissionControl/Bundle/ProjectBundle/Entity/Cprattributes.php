@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="cprattributes")
  * @ORM\Entity
  */
-class Cprattributes
-{
+class Cprattributes {
+
     /**
      * @var string
      *
@@ -36,13 +36,39 @@ class Cprattributes
     /**
      * @var integer
      *
+     * @ORM\Column(name="project_id", type="string", nullable=false)
+     */
+    private $projectId;
+
+    /**
+     * Set ProjectId
+     *
+     * @param string $projectId
+     * @return Objectives
+     */
+    public function setProjectId($projectId) {
+        $this->projectId = $projectId;
+
+        return $this;
+    }
+
+    /**
+     * Get ProjectId
+     *
+     * @return string 
+     */
+    public function getProjectId() {
+        return $this->projectId;
+    }
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="cprattribute_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $cprattributeId;
-
-
 
     /**
      * Set name
@@ -50,8 +76,7 @@ class Cprattributes
      * @param string $name
      * @return Cprattributes
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -62,8 +87,7 @@ class Cprattributes
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -73,8 +97,7 @@ class Cprattributes
      * @param string $description
      * @return Cprattributes
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
 
         return $this;
@@ -85,8 +108,7 @@ class Cprattributes
      *
      * @return string 
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
@@ -96,8 +118,7 @@ class Cprattributes
      * @param integer $selected
      * @return Cprattributes
      */
-    public function setSelected($selected)
-    {
+    public function setSelected($selected) {
         $this->selected = $selected;
 
         return $this;
@@ -108,8 +129,7 @@ class Cprattributes
      *
      * @return integer 
      */
-    public function getSelected()
-    {
+    public function getSelected() {
         return $this->selected;
     }
 
@@ -118,8 +138,8 @@ class Cprattributes
      *
      * @return integer 
      */
-    public function getCprattributeId()
-    {
+    public function getCprattributeId() {
         return $this->cprattributeId;
     }
+
 }

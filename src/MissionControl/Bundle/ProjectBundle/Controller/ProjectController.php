@@ -186,33 +186,33 @@ class ProjectController extends FOSRestController {
         
             // 2 Level 2
             $setup              = new Setups();
-            $objectives         = new Objectives();
-            $touchpoints        = new Touchpoints();
-            $cprattributes      = new Cprattributes();
-            $budgetallocation   = new Budgetallocations();
-            $timeallocation     = new Timeallocations();
+            //$objectives         = new Objectives();
+            //$touchpoints        = new Touchpoints();
+            //$cprattributes      = new Cprattributes();
+            //$budgetallocation   = new Budgetallocations();
+            //$timeallocation     = new Timeallocations();
             
                 // 3 Level 3
                 $client                     = new Clients();
                 $survey                     = new Surveys();
                 $target                     = new Targets();
-                $objectivescores            = new Objectivescores();
-                $attributescores            = new Attributescores();
-                $total                      = new TimeTotal();
-                $allocatedtouchpoints       = new Touchpointtimeallocation();
-                $budgetallocatedtouchpoints = new BudgetAllocatedtouchpoints();
-                $budgettotal                = new BudgetTotal();
+                //$objectivescores            = new Objectivescores();
+                //$attributescores            = new Attributescores();
+                //$total                      = new TimeTotal();
+                //$allocatedtouchpoints       = new Touchpointtimeallocation();
+                //$budgetallocatedtouchpoints = new BudgetAllocatedtouchpoints();
+                //$budgettotal                = new BudgetTotal();
                 
                     // 4 Level 4
-                    $allocationbyperiod     = new Allocations();
-                    $touchpointallocations  = new Touchpointallocations();
+                    //$allocationbyperiod     = new Allocations();
+                    //$touchpointallocations  = new Touchpointallocations();
                     
                         // 5 Level 5
-                        $allocations = new Allocations();
+                        //$allocations = new Allocations();
                         
                             // 6 Level 6
-                            $results                = new Results();
-                            $individualperformance  = new Individualperformances();
+                            //$results                = new Results();
+                            //$individualperformance  = new Individualperformances();
                     
         
        
@@ -230,12 +230,12 @@ class ProjectController extends FOSRestController {
         
 // setting level 2 data of the lightproject
           $lightproject->setProjectUniqueId($project->getId());
-          $lightproject->setSetup($setup);
-          $lightproject->setObjectives($objectives);
-          $lightproject->setTouchpoints($touchpoints);
-          $lightproject->setCprattributes($cprattributes);
-          $lightproject->setBudgetallocation($budgetallocation);
-          $lightproject->setTimeallocation($timeallocation);
+          //$lightproject->setSetup($setup);
+          //$lightproject->setObjectives($objectives);
+          //$lightproject->setTouchpoints($touchpoints);
+          //$lightproject->setCprattributes($cprattributes);
+          //$lightproject->setBudgetallocation($budgetallocation);
+          //$lightproject->setTimeallocation($timeallocation);
         
 
         // setting level 3 data of the lightproject 
@@ -273,9 +273,7 @@ class ProjectController extends FOSRestController {
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
                
-                
-                      
-            
+
         ////////////////////////////////////////////////////////////////    
         //Assign and persist Project OBJECTIVES Data 
         ////////////////////////////////////////////////////////////////
@@ -292,13 +290,18 @@ class ProjectController extends FOSRestController {
             $objective_object->setScore($objective->Score);
             $objective_object->setSelected($objective->Selected);
             //print_r($objective_object);
-         //////   $em = $this->getDoctrine()->getManager();
-         //////   $em->persist($objective_object);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($objective_object);
          //////   $em->flush();
         }
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
         
         
-       
+        
+        ////////////////////////////////////////////////////////////////    
+        //Assign and persist Project TOUCHPOINTS Data 
+        ////////////////////////////////////////////////////////////////
         
         $touchpoints_array_from_file = $xml_file_data->Touchpoints->Touchpoint;
         foreach ($touchpoints_array_from_file as $touchpoint){
@@ -327,11 +330,6 @@ class ProjectController extends FOSRestController {
                 $em->persist($attributescore_object);
             }
             
-            
-            
-            
-            
-            
             $touchpoint_object->setProjectId($lightproject->getProjectUniqueId());
             $touchpoint_object->setName($touchpoint->Name);
             $touchpoint_object->setLocalname($touchpoint->Localname);
@@ -339,12 +337,33 @@ class ProjectController extends FOSRestController {
             $touchpoint_object->setSelected($touchpoint->Selected);          
           
         }
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        
+        
+        ////////////////////////////////////////////////////////////////    
+        //Assign and persist Project CPRAttributes Data 
+        ////////////////////////////////////////////////////////////////
+        
+        
+        $cprattributes_array_from_file = $xml_file_data->CPRAttributes->CPRAttribute;
+        foreach ($cprattributes_array_from_file as $cprattribute){
+            $cprattribute_object = new Cprattributes();
+            
+            $cprattribute_object->setProjectID($lightproject->getProjectUniqueId());
+            $cprattribute_object->setName($cprattribute->Name);
+            $cprattribute_object->setDescription($cprattribute->Description);
+            $cprattribute_object->setSelected($cprattribute->Selected);
+            $em->persist($cprattribute_object);
+        }
+        
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
         $em->flush();
+        
         //print_r($touchpoints_array_from_file);
          die();
-        ////////////////////////////////////////////////////////////////    
-        //Assign Project TOUCHPOINTS Data 
-        ////////////////////////////////////////////////////////////////
+     
         
  
         $project->setUser($user);
