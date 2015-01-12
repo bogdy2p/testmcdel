@@ -5,13 +5,13 @@ namespace MissionControl\Bundle\ProjectBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Allocation Data
+ * Allocations
  *
- * @ORM\Table(name="allocation_data")
+ * @ORM\Table(name="allocations")
  * @ORM\Entity
  */
-class AllocationData
-{
+class Allocations {
+
     /**
      * @var float
      *
@@ -59,6 +59,13 @@ class AllocationData
      */
     private $reach;
 
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="individualperformances", type="string", length=100, nullable=false)
+     * 
+     */
+    private $individualperformances;
 
     /**
      * Set costpergrp
@@ -66,8 +73,7 @@ class AllocationData
      * @param float $costpergrp
      * @return Allocations
      */
-    public function setCostpergrp($costpergrp)
-    {
+    public function setCostpergrp($costpergrp) {
         $this->costpergrp = $costpergrp;
 
         return $this;
@@ -78,8 +84,7 @@ class AllocationData
      *
      * @return float 
      */
-    public function getCostpergrp()
-    {
+    public function getCostpergrp() {
         return $this->costpergrp;
     }
 
@@ -89,8 +94,7 @@ class AllocationData
      * @param float $grp
      * @return Allocations
      */
-    public function setGrp($grp)
-    {
+    public function setGrp($grp) {
         $this->grp = $grp;
 
         return $this;
@@ -101,8 +105,7 @@ class AllocationData
      *
      * @return float 
      */
-    public function getGrp()
-    {
+    public function getGrp() {
         return $this->grp;
     }
 
@@ -111,8 +114,7 @@ class AllocationData
      *
      * @return integer 
      */
-    public function getAllocationId()
-    {
+    public function getAllocationId() {
         return $this->allocationId;
     }
 
@@ -122,8 +124,7 @@ class AllocationData
      * @param \MissionControl\Bundle\ProjectBundle\Entity\Results $result
      * @return Allocations
      */
-    public function setResult(\MissionControl\Bundle\ProjectBundle\Entity\Results $result = null)
-    {
+    public function setResult(\MissionControl\Bundle\ProjectBundle\Entity\Results $result = null) {
         $this->result = $result;
 
         return $this;
@@ -134,8 +135,8 @@ class AllocationData
      *
      * @return \MissionControl\Bundle\ProjectBundle\Entity\Results 
      */
-    public function getResult()
-    {
+    public function getResult() {
         return $this->result;
     }
+
 }

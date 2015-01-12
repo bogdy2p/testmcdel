@@ -313,7 +313,7 @@ class ProjectController extends FOSRestController {
             $touchpoint_object->setSelected($touchpoint->Selected);    
             $em = $this->getDoctrine()->getManager();
             $em->persist($touchpoint_object);
-            $em->flush();
+            //$em->flush();
             // Iterate over Objectivescores , and save them with the id of this touchpoint ! :)
             //print_r(count($touchpoint->ObjectiveScores->double));
             $objectivescores_double = $touchpoint->ObjectiveScores->double;
@@ -372,8 +372,15 @@ class ProjectController extends FOSRestController {
         
         //---- THE BUDGET ALLOCATION IS ONLY 1 FOR THE WHOLE PROJECT SO NO NEED FOR another FOREACH.
         
-//        $budgetallocation_array_from_file = $xml_file_data->BudgetAllocation;
-//        
+          $budgetallocation = $xml_file_data->BudgetAllocation;
+          
+          $budgetallocatedtouchpoints = $budgetallocation->AllocatedTouchpoints;
+          $budgettotal = $budgetallocation->Total;
+
+          
+          
+          
+          
 //        $budgetallocation_object = new Budgetallocations();
 //        $budgetallocation_object->setProjectID($lightproject->getProjectUniqueId());
 //        $budgetallocation_object->setAllocatedtouchpoints('123');
@@ -398,18 +405,11 @@ class ProjectController extends FOSRestController {
 //            }
 //            
             
-//            $budgetallocation_object->setAllocatedtouchpoints('asd'); //CREATE A UNIQUE DATABASE HASH
-//            // ALLOCATE THE BUDGETALLOCATEDTOUCHPOINTS -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
-//            
-//            $budgetallocation_object->setTotal('123');  //CREATE ANOTHER UNIQUE DATABASE HASH
-//            // ALLOCATE THE BUDGET_TOTAL -> SET THEM TO HAVE A PROPERTY WITH THIS HASH.
-//            //print_r($budgetallocation_object);
-//            $em->persist($budgetallocation_object);
-            
         
-
-        //print_r($budgetallocation_array_from_file);
-        $em->flush();
+          print_r($budgetallocatedtouchpoints);
+          print_r($budgettotal);
+//        print_r($budgetallocation_array_from_file);
+        //$em->flush();
        
         
         //print_r($touchpoints_array_from_file);
