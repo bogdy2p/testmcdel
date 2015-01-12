@@ -15,7 +15,7 @@ use MissionControl\Bundle\ProjectBundle\Entity\Surveys;
 use MissionControl\Bundle\ProjectBundle\Entity\Targets;
 use MissionControl\Bundle\ProjectBundle\Entity\Objectivescores;
 use MissionControl\Bundle\ProjectBundle\Entity\Attributescores;
-use MissionControl\Bundle\ProjectBundle\Entity\AllocationData;
+use MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocationData;
 use MissionControl\Bundle\ProjectBundle\Entity\Individualperformances;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
@@ -254,7 +254,6 @@ class ProjectController extends FOSRestController {
         ////////////////////////////////////////////////////////////////
 
 
-
         $objectives_array_from_file = $xml_file_data->Objectives->Objective;
 
         foreach ($objectives_array_from_file as $objective) {
@@ -278,7 +277,7 @@ class ProjectController extends FOSRestController {
         foreach ($touchpoints_array_from_file as $touchpoint) {
 
             $touchpoint_object = new Touchpoints();
-            $touchpoint_object->setProjectId($lightproject->getProjectUniqueId());
+            $touchpoint_object->setProjectId($key);
             $touchpoint_object->setName($touchpoint->Name);
             $touchpoint_object->setLocalname($touchpoint->LocalName);
             $touchpoint_object->setHtmlcolor($touchpoint->HtmlColor);
@@ -343,35 +342,15 @@ class ProjectController extends FOSRestController {
         $budgettotal = $budgetallocation->Total;
 
 
+        print_r($budgettotal);
 
-
-
-        // $budget_allocatedtouchpoints_from_file = $budgetallocation_array_from_file->AllocatedTouchpoints->TouchpointAllocation;
-//            foreach ($budget_allocatedtouchpoints_from_file as $touchpointallocation){
-//                
-//                $budgetallocatedtouchpoint_object = new BudgetAllocatedtouchpoints();
-//                
-////                $budgetallocatedtouchpoint_object->setTouchpointname($touchpointallocation->TouchpointName);
-////                $budgetallocatedtouchpoint_object->setAllocation($touchpointallocation->Allocation);
-////                $budgetallocatedtouchpoint_object->setBudgetId($lightproject->getProjectUniqueId());
-//                //$budgetallocatedtouchpoint_object->setTouchpointname($touchpointallocation->TouchpointName);
-//                //$touchpointallocation_object->setAllocation('12');
-//                
-//                print_r($budgetallocatedtouchpoint_object);  
-//                //$em->persist($budgetallocatedtouchpoint_object);
-//                
-//            }
-//            
-        //print_r($budgetallocatedtouchpoints);
-        //print_r($budgettotal);
-//        print_r($budgetallocation_array_from_file);
-        //$em->flush();
 
         foreach ($budgetallocatedtouchpoints as $budget_allocated_touchpoint) {
-            $budget_allocation = new AllocationData();
+            $budget_allocation = new BudgetAllocationData();
 
             $budget_allocation->setIsTotal(false);
-            $budget_allocation->setBelongsToBudget(true);
+            $budget_allocation->setBelongsToProject($lightproject->getProjectUniqueId());
+            $budget_allocation->setTouchpointName($budget_allocated_touchpoint->TouchpointName->__toString());
             $budget_allocation->setGrp($budget_allocated_touchpoint->Allocation->GRP->__toString());
             $budget_allocation->setCostpergrp($budget_allocated_touchpoint->Allocation->CostPerGRP->__toString());
             $budget_allocation->setGlobalPerformance($budget_allocated_touchpoint->Allocation->Result->GlobalPerformance->__toString());
@@ -392,10 +371,11 @@ class ProjectController extends FOSRestController {
 
 
 
-        $budget_total = new AllocationData();
+        $budget_total = new BudgetAllocationData();
 
-        $budget_total->setBelongsToBudget(true);
+        $budget_total->setBelongsToProject($lightproject->getProjectUniqueId());
         $budget_total->setIsTotal(true);
+        $budget_total->setTouchpointName($budgettotal->TouchpointName->__toString());
         $budget_total->setGrp($budgettotal->Allocation->GRP->__toString());
         $budget_total->setCostpergrp($budgettotal->Allocation->CostPerGRP->__toString());
         $budget_total->setGlobalPerformance($budgettotal->Allocation->Result->GlobalPerformance->__toString());
@@ -415,8 +395,7 @@ class ProjectController extends FOSRestController {
 
 
 
-
-        //print_r($touchpoints_array_from_file);
+       
         die();
 
 

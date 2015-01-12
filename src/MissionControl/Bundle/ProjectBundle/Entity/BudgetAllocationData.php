@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Allocations
  *
- * @ORM\Table(name="allocation_data")
+ * @ORM\Table(name="budget_allocation_data")
  * @ORM\Entity
  */
-class AllocationData {
+class BudgetAllocationData {
 
     /**
      * @var float
@@ -52,18 +52,26 @@ class AllocationData {
     /**
      * @var string
      * 
-     * @ORM\Column(name="individualperformances", type="string", length=100, nullable=false)
+     * @ORM\Column(name="individualperformances", type="string", length=255, nullable=false)
      * 
      */
     private $individualperformances;
 
     /**
-     * @var bool
+     * @var string
      * 
-     * @ORM\Column(name="belongs_to_budget",type="boolean", nullable=false)
+     * @ORM\Column(name="touchpointname", type="string", length=255, nullable=false)
      * 
      */
-    private $belongs_to_budget;
+    private $touchpointname;
+
+    /**
+     * @var bool
+     * 
+     * @ORM\Column(name="belongs_to_project",type="string", length=36, nullable=false)
+     * 
+     */
+    private $belongs_to_project;
 
     /**
      * @var bool
@@ -95,24 +103,24 @@ class AllocationData {
     }
 
     /**
-     * Set belongs_to_budget
+     * Set belongs_to_project
      *
      * @param float $costpergrp
      * @return AllocationData
      */
-    public function setBelongsToBudget($belongs_to_budget) {
-        $this->belongs_to_budget = $belongs_to_budget;
+    public function setBelongsToProject($belongs_to_project) {
+        $this->belongs_to_project = $belongs_to_project;
 
         return $this;
     }
 
     /**
-     * Get belongs_to_budget
+     * Get belongs_to_project
      *
      * @return float 
      */
-    public function getBelongsToBudget() {
-        return $this->belongs_to_budget;
+    public function getBelongsToProject() {
+        return $this->belongs_to_project;
     }
 
     /**
@@ -165,7 +173,7 @@ class AllocationData {
     public function getAllocationId() {
         return $this->allocationId;
     }
-    
+
     /**
      * Set globalperformance
      *
@@ -187,7 +195,7 @@ class AllocationData {
         return $this->globalperformance;
     }
 
-   /**
+    /**
      * Set reach
      *
      * @param float $reach
@@ -207,6 +215,7 @@ class AllocationData {
     public function getReach() {
         return $this->reach;
     }
+
     /**
      * Set individualperformances
      *
@@ -226,5 +235,25 @@ class AllocationData {
      */
     public function getIndividualPerformances() {
         return $this->individualperformances;
+    }
+/**
+     * Set touchpointname
+     *
+     * @param string $touchpointname
+     * @return AllocationData
+     */
+    public function setTouchpointName($touchpointname) {
+        $this->touchpointname = $touchpointname;
+
+        return $this;
+    }
+
+    /**
+     * Get touchpointname
+     *
+     * @return string 
+     */
+    public function getTouchpointName() {
+        return $this->touchpointname;
     }
 }
