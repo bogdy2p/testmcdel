@@ -170,34 +170,14 @@ class ProjectController extends FOSRestController {
 
         // Populate the Project object with data from the Request:
         $project = new Project();
-        // 1 Level 1
 
         $lightproject = new Lightxmlprojects();
 
-        // 2 Level 2
         $setup = new Setups();
-        //$objectives         = new Objectives();
-        //$touchpoints        = new Touchpoints();
-        //$cprattributes      = new Cprattributes();
-        //$timeallocation     = new Timeallocations();
-        // 3 Level 3
+        
         $client = new Clients();
         $survey = new Surveys();
         $target = new Targets();
-        //$objectivescores            = new Objectivescores();
-        //$attributescores            = new Attributescores();
-        //$total                      = new TimeTotal();
-        //$allocatedtouchpoints       = new Touchpointtimeallocation();
-        //$budgetallocatedtouchpoints = new BudgetAllocatedtouchpoints();
-        //$budgettotal                = new BudgetTotal();
-        // 4 Level 4
-        //$allocationbyperiod     = new Allocations();
-        //$touchpointallocations  = new Touchpointallocations();
-
-
-
-
-
 
         $project->setId($key);
         $project->setName($request->get('name'));
@@ -209,16 +189,9 @@ class ProjectController extends FOSRestController {
         $pbc_xmlfile = $request->files->get('xmlFile');
         $xml_file_data = simplexml_load_file($pbc_xmlfile);
 
+        
 
-        // setting level 2 data of the lightproject
-        $lightproject->setProjectUniqueId($project->getId());
-        //$lightproject->setSetup($setup);
-        //$lightproject->setObjectives($objectives);
-        //$lightproject->setTouchpoints($touchpoints);
-        //$lightproject->setCprattributes($cprattributes);
-        //$lightproject->setBudgetallocation($budgetallocation);
-        //$lightproject->setTimeallocation($timeallocation);
-        // setting level 3 data of the lightproject 
+   
         ////////////////////////////////////////////////////////////////
         //Assign Project SETUP Data
         ////////////////////////////////////////////////////////////////
@@ -236,10 +209,7 @@ class ProjectController extends FOSRestController {
 
 
         $datetime = new \DateTime($xml_file_data->Setup->StartDate);
-        //$datetime = $xml_file_data->Setup->StartDate;
         $setup->setStartdate($datetime);
-
-        // $setup->setStartdate($xml_file_data->Setup->StartDate);
         $setup->setPeriodtype($xml_file_data->Setup->PeriodType);
         $setup->setNbperiods($xml_file_data->Setup->NbPeriods);
         $setup->setBudget($xml_file_data->Setup->Budget);
@@ -247,7 +217,11 @@ class ProjectController extends FOSRestController {
 
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
+        $lightproject->setProjectUniqueId($project->getId());
         $lightproject->setSetup($setup);
+        
+        
+        
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////    
@@ -285,9 +259,9 @@ class ProjectController extends FOSRestController {
             $touchpoint_object->setSelected($touchpoint->Selected);
             $em = $this->getDoctrine()->getManager();
             $em->persist($touchpoint_object);
-            //$em->flush();
-            // Iterate over Objectivescores , and save them with the id of this touchpoint ! :)
-            //print_r(count($touchpoint->ObjectiveScores->double));
+            $em->flush();
+            // Iterate over Objectivescores 
+            
             $objectivescores_double = $touchpoint->ObjectiveScores->double;
             foreach ($objectivescores_double as $objectivescore) {
 
@@ -297,7 +271,7 @@ class ProjectController extends FOSRestController {
                 $em->persist($objectivescore_object);
             }
 
-            // Iterate over AttributeScores , and save them with the id of this touchpoint ! :)
+            // Iterate over AttributeScores 
             $attributescores_double = $touchpoint->AttributeScores->double;
             foreach ($attributescores_double as $attributescore) {
                 $attributescore_object = new Attributescores();
@@ -342,12 +316,9 @@ class ProjectController extends FOSRestController {
         $budgettotal = $budgetallocation->Total;
 
 
-        //print_r($budgettotal);
-
 
         foreach ($budgetallocatedtouchpoints as $budget_allocated_touchpoint) {
             $budget_allocation = new BudgetAllocationData();
-
             $budget_allocation->setIsTotal(false);
             $budget_allocation->setBelongsToProject($lightproject->getProjectUniqueId());
             $budget_allocation->setTouchpointName($budget_allocated_touchpoint->TouchpointName->__toString());
@@ -355,24 +326,18 @@ class ProjectController extends FOSRestController {
             $budget_allocation->setCostpergrp($budget_allocated_touchpoint->Allocation->CostPerGRP->__toString());
             $budget_allocation->setGlobalPerformance($budget_allocated_touchpoint->Allocation->Result->GlobalPerformance->__toString());
             $budget_allocation->setReach($budget_allocated_touchpoint->Allocation->Result->Reach->__toString());
-            // FOREACH INDIVIDUALPERFORMANCE , ADD THEM TO AN ARRAY (or string , delimit them by SOMETHING (\) AND SAVE THEM AS THAT.
+           
             $individualperformancesarray = $budget_allocated_touchpoint->Allocation->Result->IndividualPerformance->double;
-
             $variable_to_save = '';
             foreach ($individualperformancesarray as $indiv_perf) {
                 $variable_to_save = $variable_to_save . $indiv_perf->__toString() . " ";
             }
-
             $budget_allocation->setIndividualPerformances($variable_to_save);
-            //print_r($budget_allocation);
             $em->persist($budget_allocation);
         }
 
 
-
-
         $budget_total = new BudgetAllocationData();
-
         $budget_total->setBelongsToProject($lightproject->getProjectUniqueId());
         $budget_total->setIsTotal(true);
         $budget_total->setTouchpointName($budgettotal->TouchpointName->__toString());
@@ -380,9 +345,8 @@ class ProjectController extends FOSRestController {
         $budget_total->setCostpergrp($budgettotal->Allocation->CostPerGRP->__toString());
         $budget_total->setGlobalPerformance($budgettotal->Allocation->Result->GlobalPerformance->__toString());
         $budget_total->setReach($budgettotal->Allocation->Result->Reach->__toString());
-        // FOREACH INDIVIDUALPERFORMANCE , ADD THEM TO AN ARRAY (or string , delimit them by SOMETHING (\) AND SAVE THEM AS THAT.
+       
         $individualperformancesarray = $budgettotal->Allocation->Result->IndividualPerformance->double;
-
         $variable_to_save = '';
         foreach ($individualperformancesarray as $indiv_perf) {
             $variable_to_save = $variable_to_save . $indiv_perf->__toString() . " ";
@@ -391,12 +355,9 @@ class ProjectController extends FOSRestController {
         $budget_total->setIndividualPerformances($variable_to_save);
         $em->persist($budget_total);
 
-        //$em->flush();
-
         ////////////////////////////////////////////////////////////////   
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
-
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
@@ -408,39 +369,73 @@ class ProjectController extends FOSRestController {
         ////////////////////////////////////////////////////////////////   
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
-        
+
         $timeallocation = $xml_file_data->TimeAllocation;
 
         $timeallocatedtouchpoints = $timeallocation->AllocatedTouchpoints->TouchpointTimeAllocation;
         $timetotal = $timeallocation->Total;
-        
+
         $time_total = new TimeAllocationData();
-        
         $time_total->setBelongsToProject($lightproject->getProjectUniqueId());
         $time_total->setIsTotal(true);
-        //$time_total->setTouchpointName($variable_to_save);
-        
-        
+
         $touchpoint_time_allocations = $timeallocation->AllocatedTouchpoints->TouchpointTimeAllocation;
-        
-        foreach ($touchpoint_time_allocations as $touchpoint_time_allocation){
-            
-            $time_allocation = new TimeAllocationData();
-            
-            $time_allocation->setTouchpointName($touchpoint_time_allocation->Name);
-            $time_allocation->setReachFrequency($touchpoint_time_allocation->ReachFrequency);
-            
-            
+
+        foreach ($touchpoint_time_allocations as $touchpoint_time_allocation) {
+
+            foreach ($touchpoint_time_allocation->AllocationByPeriod->AllocationData as $time_allocation_data) {
+
+                $time_allocation = new TimeAllocationData();
+
+                $time_allocation->setBelongsToProject($key);
+                $time_allocation->setTouchpointName($touchpoint_time_allocation->TouchpointName->__toString());
+                $time_allocation->setReachFrequency($touchpoint_time_allocation->ReachFrequency);
+                $time_allocation->setCostpergrp($time_allocation_data->CostPerGRP->__toString());
+                $time_allocation->setGrp($time_allocation_data->GRP->__toString());
+                $time_allocation->setGlobalPerformance($time_allocation_data->Result->GlobalPerformance->__toString());
+                $time_allocation->setReach($time_allocation_data->Result->Reach->__toString());
+                $time_allocation->setIsTotal(false);
+
+                $individualperformancesarray = $time_allocation_data->Result->IndividualPerformance->double;
+
+                $variable_to_save = '';
+                foreach ($individualperformancesarray as $indiv_perf) {
+                    $variable_to_save = $variable_to_save . $indiv_perf->__toString() . " ";
+                }
+
+                $time_allocation->setIndividualPerformances($variable_to_save);
+
+                $em->persist($time_allocation);
+            }
         }
         
-        die();
+        $total_time_allocations = $timeallocation->Total->AllocationByPeriod->AllocationData;        
         
-        
-        print_r(count($timeallocation->AllocatedTouchpoints->TouchpointTimeAllocation->AllocationByPeriod->AllocationData));
-        
-        
-        die();
+        foreach ($total_time_allocations as $total_time_allocation_data){
+                        
+            $total_time_allocation = new TimeAllocationData();
+            $total_time_allocation->setIsTotal(true);
+            $total_time_allocation->setBelongsToProject($key);
+            $total_time_allocation->setTouchpointName($timeallocation->Total->TouchpointName->__toString());
+            $total_time_allocation->setReachFrequency($timeallocation->Total->ReachFrequency->__toString());
+            
+            $total_time_allocation->setCostpergrp($total_time_allocation_data->CostPerGRP->__toString());
+            $total_time_allocation->setGrp($total_time_allocation_data->GRP->__toString());
+            $total_time_allocation->setGlobalPerformance($total_time_allocation_data->Result->GlobalPerformance->__toString());
+            $total_time_allocation->setReach($total_time_allocation_data->Result->Reach->__toString());
+            
+             $individualperformancesarray = $total_time_allocation_data->Result->IndividualPerformance->double;
 
+                $variable_to_save = '';
+                foreach ($individualperformancesarray as $indiv_perf) {
+                    $variable_to_save = $variable_to_save . $indiv_perf->__toString() . " ";
+                }
+                $total_time_allocation->setIndividualPerformances($variable_to_save);
+
+            $em->persist($total_time_allocation);
+        }
+        
+        $em->flush();
 
         $project->setUser($user);
 
@@ -466,9 +461,6 @@ class ProjectController extends FOSRestController {
         //$project->upload();
 
         $em->persist($lightproject);
-        //$em->persist($client);
-        //$em->persist($timeallocation);
-//        $em->persist($setup);
         $em->flush();
 
         $response->setStatusCode(201);
