@@ -16,6 +16,7 @@ use MissionControl\Bundle\ProjectBundle\Entity\Targets;
 use MissionControl\Bundle\ProjectBundle\Entity\Objectivescores;
 use MissionControl\Bundle\ProjectBundle\Entity\Attributescores;
 use MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocationData;
+use MissionControl\Bundle\ProjectBundle\Entity\TimeAllocationData;
 use MissionControl\Bundle\ProjectBundle\Entity\Individualperformances;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
@@ -284,7 +285,7 @@ class ProjectController extends FOSRestController {
             $touchpoint_object->setSelected($touchpoint->Selected);
             $em = $this->getDoctrine()->getManager();
             $em->persist($touchpoint_object);
-            $em->flush();
+            //$em->flush();
             // Iterate over Objectivescores , and save them with the id of this touchpoint ! :)
             //print_r(count($touchpoint->ObjectiveScores->double));
             $objectivescores_double = $touchpoint->ObjectiveScores->double;
@@ -334,7 +335,6 @@ class ProjectController extends FOSRestController {
         ////////////////////////////////////////////////////////////////   
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
-        //---- THE BUDGET ALLOCATION IS ONLY 1 FOR THE WHOLE PROJECT SO NO NEED FOR another FOREACH.
 
         $budgetallocation = $xml_file_data->BudgetAllocation;
 
@@ -342,7 +342,7 @@ class ProjectController extends FOSRestController {
         $budgettotal = $budgetallocation->Total;
 
 
-        print_r($budgettotal);
+        //print_r($budgettotal);
 
 
         foreach ($budgetallocatedtouchpoints as $budget_allocated_touchpoint) {
@@ -391,11 +391,54 @@ class ProjectController extends FOSRestController {
         $budget_total->setIndividualPerformances($variable_to_save);
         $em->persist($budget_total);
 
-        $em->flush();
+        //$em->flush();
 
+        ////////////////////////////////////////////////////////////////   
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
 
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////    
+        ////Assign and persist Project TIME ALLOCATION Data 
+        ////Assign and persist Project TIME ALLOCATION Data 
+        ////Assign and persist Project TIME ALLOCATION Data 
+        ////////////////////////////////////////////////////////////////   
+        ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        
+        $timeallocation = $xml_file_data->TimeAllocation;
 
-       
+        $timeallocatedtouchpoints = $timeallocation->AllocatedTouchpoints->TouchpointTimeAllocation;
+        $timetotal = $timeallocation->Total;
+        
+        $time_total = new TimeAllocationData();
+        
+        $time_total->setBelongsToProject($lightproject->getProjectUniqueId());
+        $time_total->setIsTotal(true);
+        //$time_total->setTouchpointName($variable_to_save);
+        
+        
+        $touchpoint_time_allocations = $timeallocation->AllocatedTouchpoints->TouchpointTimeAllocation;
+        
+        foreach ($touchpoint_time_allocations as $touchpoint_time_allocation){
+            
+            $time_allocation = new TimeAllocationData();
+            
+            $time_allocation->setTouchpointName($touchpoint_time_allocation->Name);
+            $time_allocation->setReachFrequency($touchpoint_time_allocation->ReachFrequency);
+            
+            
+        }
+        
+        die();
+        
+        
+        print_r(count($timeallocation->AllocatedTouchpoints->TouchpointTimeAllocation->AllocationByPeriod->AllocationData));
+        
+        
         die();
 
 
