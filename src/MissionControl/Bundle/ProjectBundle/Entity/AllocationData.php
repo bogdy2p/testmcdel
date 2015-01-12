@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Allocations
  *
- * @ORM\Table(name="allocations")
+ * @ORM\Table(name="allocation_data")
  * @ORM\Entity
  */
-class Allocations {
+class AllocationData {
 
     /**
      * @var float
@@ -36,16 +36,6 @@ class Allocations {
     private $allocationId;
 
     /**
-     * @var \MissionControl\Bundle\ProjectBundle\Entity\Results
-     *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Results")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="result", referencedColumnName="result_id")
-     * })
-     */
-    private $result;
-
-    /**
      * @var float
      *
      * @ORM\Column(name="globalperformance", type="float", precision=10, scale=0, nullable=true)
@@ -68,10 +58,68 @@ class Allocations {
     private $individualperformances;
 
     /**
+     * @var bool
+     * 
+     * @ORM\Column(name="belongs_to_budget",type="boolean", nullable=false)
+     * 
+     */
+    private $belongs_to_budget;
+
+    /**
+     * @var bool
+     * 
+     * @ORM\Column(name="is_total", type="boolean", nullable=false)
+     * 
+     */
+    private $is_total;
+
+    /**
+     * Set is_total
+     *
+     * @param float $costpergrp
+     * @return AllocationData
+     */
+    public function setIsTotal($is_total) {
+        $this->is_total = $is_total;
+
+        return $this;
+    }
+
+    /**
+     * Get is_total
+     *
+     * @return float 
+     */
+    public function getIsTotal() {
+        return $this->is_total;
+    }
+
+    /**
+     * Set belongs_to_budget
+     *
+     * @param float $costpergrp
+     * @return AllocationData
+     */
+    public function setBelongsToBudget($belongs_to_budget) {
+        $this->belongs_to_budget = $belongs_to_budget;
+
+        return $this;
+    }
+
+    /**
+     * Get belongs_to_budget
+     *
+     * @return float 
+     */
+    public function getBelongsToBudget() {
+        return $this->belongs_to_budget;
+    }
+
+    /**
      * Set costpergrp
      *
      * @param float $costpergrp
-     * @return Allocations
+     * @return AllocationData
      */
     public function setCostpergrp($costpergrp) {
         $this->costpergrp = $costpergrp;
@@ -117,26 +165,66 @@ class Allocations {
     public function getAllocationId() {
         return $this->allocationId;
     }
-
+    
     /**
-     * Set result
+     * Set globalperformance
      *
-     * @param \MissionControl\Bundle\ProjectBundle\Entity\Results $result
-     * @return Allocations
+     * @param float $globalperformance
+     * @return AllocationData
      */
-    public function setResult(\MissionControl\Bundle\ProjectBundle\Entity\Results $result = null) {
-        $this->result = $result;
+    public function setGlobalPerformance($globalperformance) {
+        $this->globalperformance = $globalperformance;
 
         return $this;
     }
 
     /**
-     * Get result
+     * Get globalperformance
      *
-     * @return \MissionControl\Bundle\ProjectBundle\Entity\Results 
+     * @return float 
      */
-    public function getResult() {
-        return $this->result;
+    public function getGlobalPerformance() {
+        return $this->globalperformance;
     }
 
+   /**
+     * Set reach
+     *
+     * @param float $reach
+     * @return AllocationData
+     */
+    public function setReach($reach) {
+        $this->reach = $reach;
+
+        return $this;
+    }
+
+    /**
+     * Get reach
+     *
+     * @return float 
+     */
+    public function getReach() {
+        return $this->reach;
+    }
+    /**
+     * Set individualperformances
+     *
+     * @param float $individualperformances
+     * @return AllocationData
+     */
+    public function setIndividualPerformances($individualperformances) {
+        $this->individualperformances = $individualperformances;
+
+        return $this;
+    }
+
+    /**
+     * Get individualperformances
+     *
+     * @return float 
+     */
+    public function getIndividualPerformances() {
+        return $this->individualperformances;
+    }
 }
