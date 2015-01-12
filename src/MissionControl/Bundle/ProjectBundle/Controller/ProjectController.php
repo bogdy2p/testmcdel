@@ -171,25 +171,39 @@ class ProjectController extends FOSRestController {
         // Populate the Project object with data from the Request:
         $project = new Project();
 
-        $lightproject = new Lightxmlprojects();
+        $project->setId($key);
+        $project->setName($request->get('name'));
+        $project->setXmlFile($request->files->get('xmlFile'));
+        $project->setUser($user);
 
-        $setup = new Setups();
+        // Get validator service to check for errors:
+        $validator = $this->get('validator');
+        $errors = $validator->validate($project);
         
+        // Create and prepare the Response object to be sent back to client:
+        $response = new Response();
+
+        if (count($errors) > 0) {
+
+            // Return $errors in JSON format:
+            $view = $this->view($errors, 400);
+            return $this->handleView($view);
+        }
+        
+        // If no errors were found, instantiate entity_manager to begin.
+        $em = $this->getDoctrine()->getManager();
+        
+        $lightproject = new Lightxmlprojects();
+        $setup = new Setups();
         $client = new Clients();
         $survey = new Surveys();
         $target = new Targets();
 
-        $project->setId($key);
-        $project->setName($request->get('name'));
-
-        $project->setXmlFile($request->files->get('xmlFile'));
         ////////////////////////////////////////////////
         // pbc_xmlfile contains the uploaded xml file.
         ////////////////////////////////////////////////
         $pbc_xmlfile = $request->files->get('xmlFile');
         $xml_file_data = simplexml_load_file($pbc_xmlfile);
-
-        
 
    
         ////////////////////////////////////////////////////////////////
@@ -221,7 +235,6 @@ class ProjectController extends FOSRestController {
         $lightproject->setSetup($setup);
         
         
-        
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////    
@@ -239,7 +252,6 @@ class ProjectController extends FOSRestController {
             $objective_object->setScore($objective->Score);
             $objective_object->setSelected($objective->Selected);
             //print_r($objective_object);
-            $em = $this->getDoctrine()->getManager();
             $em->persist($objective_object);
         }
         ////////////////////////////////////////////////////////////////
@@ -257,7 +269,6 @@ class ProjectController extends FOSRestController {
             $touchpoint_object->setLocalname($touchpoint->LocalName);
             $touchpoint_object->setHtmlcolor($touchpoint->HtmlColor);
             $touchpoint_object->setSelected($touchpoint->Selected);
-            $em = $this->getDoctrine()->getManager();
             $em->persist($touchpoint_object);
             $em->flush();
             // Iterate over Objectivescores 
@@ -311,11 +322,8 @@ class ProjectController extends FOSRestController {
         ////////////////////////////////////////////////////////////////
 
         $budgetallocation = $xml_file_data->BudgetAllocation;
-
         $budgetallocatedtouchpoints = $budgetallocation->AllocatedTouchpoints->TouchpointAllocation;
         $budgettotal = $budgetallocation->Total;
-
-
 
         foreach ($budgetallocatedtouchpoints as $budget_allocated_touchpoint) {
             $budget_allocation = new BudgetAllocationData();
@@ -433,29 +441,10 @@ class ProjectController extends FOSRestController {
                 $total_time_allocation->setIndividualPerformances($variable_to_save);
 
             $em->persist($total_time_allocation);
-        }
+        }   
+
+
         
-        $em->flush();
-
-        $project->setUser($user);
-
-        // Get validator service to check for errors:
-        $validator = $this->get('validator');
-        $errors = $validator->validate($project);
-
-        // Create and prepare the Response object to be sent back to client:
-        $response = new Response();
-
-        if (count($errors) > 0) {
-
-            // Return $errors in JSON format:
-            $view = $this->view($errors, 400);
-            return $this->handleView($view);
-        }
-
-
-        // If no errors were found, persist the Project to the database
-        $em = $this->getDoctrine()->getManager();
 
         // Move the file in the uploads folder before persisting the Project entity:
         //$project->upload();
