@@ -102,12 +102,26 @@ class ProjectController extends FOSRestController {
             );
             return $response;
         }
+        
+        $lightxmldata = $this->getDoctrine()->getRepository('ProjectBundle:Lightxmlprojects')
+                    ->findBy(['projectUniqueId' => $projectId]);
+        
+        if (!$lightxmldata){
+            $response = new Response();
+            $response->setStatusCode(418);
+            $response->setContent(json_encode(array('Status'=> ' bleah ... n-avem !')));
+            return $response;
+        }
+        
+        //exit(\Doctrine\Common\Util\Debug::dump($lightxmldata));
+       // die();
 
         // Serialize the Project instance to return JSON format:
         $serializer = $this->get('jms_serializer');
         $jsonContent = $serializer->serialize($project, 'json', SerializationContext::create()->setGroups(array('projectInfo')));
 
-        return ['project' => $project];
+        return ['project' => $project
+                ,'lightxmldata' => $lightxmldata];
     }
 
     /**
@@ -450,6 +464,7 @@ class ProjectController extends FOSRestController {
         //$project->upload();
 
         $em->persist($lightproject);
+        $em->persist($project);
         $em->flush();
 
         $response->setStatusCode(201);

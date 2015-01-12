@@ -28,9 +28,9 @@ class Lightxmlprojects {
     private $projectId;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="project_uid", type="integer")
+     * @ORM\Column(name="project_uid", type="string", length=36, nullable=false)
      */
     private $projectUniqueId;
 
@@ -87,7 +87,7 @@ class Lightxmlprojects {
     /**
      * Get projectUniqueId
      *
-     * @return integer 
+     * @return string 
      */
     public function getProjectUniqueId() {
         return $this->projectUniqueId;
@@ -97,7 +97,7 @@ class Lightxmlprojects {
     /**
      * Set projectUniqueId
      *
-     * @return integer 
+     * @return Lightxmlprojects
      */
     public function setProjectUniqueId($projectUniqueId) {
         $this->projectUniqueId = $projectUniqueId;
