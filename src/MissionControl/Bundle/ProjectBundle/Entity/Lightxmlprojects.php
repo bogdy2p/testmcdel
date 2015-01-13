@@ -8,15 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Lightxmlprojects
  *
- * @ORM\Table(name="lightxmlprojects", uniqueConstraints={@ORM\UniqueConstraint(name="project_id", columns={"project_id"})}, indexes={@ORM\Index(name="fk_projects_setups_idx", columns={"setup"}), @ORM\Index(name="fk_projects_objectives1_idx", columns={"objectives"}),})
+ * @ORM\Table(name="lightxmlprojects", uniqueConstraints={@ORM\UniqueConstraint(name="project_id", columns={"project_id"})}, indexes={@ORM\Index(name="fk_projects_setups_idx", columns={"setup"}),})
  * @ORM\Entity
  */
 class Lightxmlprojects {
-
-    public function __construct() {
-          //$this->setup = new ArrayCollection();
-          //$this->objectives = new ArrayCollection();
-    }
 
     /**
      * @var integer
@@ -34,17 +29,6 @@ class Lightxmlprojects {
      */
     private $projectUniqueId;
 
-
-//    /**
-//     * @var \MissionControl\Bundle\ProjectBundle\Entity\Touchpoints
-//     *
-//     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Touchpoints", cascade={"persist"})
-//     * @ORM\JoinColumns({
-//     *   @ORM\JoinColumn(name="touchpoints", referencedColumnName="touchpoint_id")
-//     * })
-//     */
-//    private $touchpoints;
-//
     /**
      * @var \MissionControl\Bundle\ProjectBundle\Entity\Setups
      *
@@ -54,25 +38,26 @@ class Lightxmlprojects {
      * })
      */
     private $setup;
-
-    /**
-     * @var \MissionControl\Bundle\ProjectBundle\Entity\Objectives
-     *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Objectives", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objectives", referencedColumnName="objective_id")
-     * })
-     */
+    
+//    /**
+//     * @var \MissionControl\Bundle\ProjectBundle\Entity\Objectives
+//     *
+//     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Objectives", cascade={"persist"})
+//     * @ORM\JoinColumns({
+//     *   @ORM\JoinColumn(name="objectives", referencedColumnName="objective_id")
+//     * })
+//     */
+//  
     private $objectives;
-
-    /**
-     * @var \MissionControl\Bundle\ProjectBundle\Entity\Cprattributes
-     *
-     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Cprattributes", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="cprattributes", referencedColumnName="cprattribute_id")
-     * })
-     */
+//
+//    /**
+//     * @var \MissionControl\Bundle\ProjectBundle\Entity\Cprattributes
+//     *
+//     * @ORM\ManyToOne(targetEntity="MissionControl\Bundle\ProjectBundle\Entity\Cprattributes", cascade={"persist"})
+//     * @ORM\JoinColumns({
+//     *   @ORM\JoinColumn(name="cprattributes", referencedColumnName="cprattribute_id")
+//     * })
+//     */
     private $cprattributes;
 
     /**
@@ -93,7 +78,6 @@ class Lightxmlprojects {
         return $this->projectUniqueId;
     }
 
-
     /**
      * Set projectUniqueId
      *
@@ -103,27 +87,6 @@ class Lightxmlprojects {
         $this->projectUniqueId = $projectUniqueId;
         return $this;
     }
-
-//    /**
-//     * Set touchpoints
-//     *
-//     * @param \MissionControl\Bundle\ProjectBundle\Entity\Touchpoints $touchpoints
-//     * @return Lightxmlprojects
-//     */
-//    public function setTouchpoints(\MissionControl\Bundle\ProjectBundle\Entity\Touchpoints $touchpoints = null) {
-//        $this->touchpoints = $touchpoints;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get touchpoints
-//     *
-//     * @return \MissionControl\Bundle\ProjectBundle\Entity\Touchpoints 
-//     */
-//    public function getTouchpoints() {
-//        return $this->touchpoints;
-//    }
 
     /**
      * Set setup
@@ -146,46 +109,6 @@ class Lightxmlprojects {
         return $this->setup;
     }
 
-    /**
-     * Set objectives
-     *
-     * @param \MissionControl\Bundle\ProjectBundle\Entity\Objectives $objectives
-     * @return Lightxmlprojects
-     */
-    public function setObjectives(\MissionControl\Bundle\ProjectBundle\Entity\Objectives $objectives = null) {
-        $this->objectives = $objectives;
 
-        return $this;
-    }
-
-    /**
-     * Get objectives
-     *
-     * @return \MissionControl\Bundle\ProjectBundle\Entity\Objectives 
-     */
-    public function getObjectives() {
-        return $this->objectives;
-    }
-
-    /**
-     * Set cprattributes
-     *
-     * @param \MissionControl\Bundle\ProjectBundle\Entity\Cprattributes $cprattributes
-     * @return Lightxmlprojects
-     */
-    public function setCprattributes(\MissionControl\Bundle\ProjectBundle\Entity\Cprattributes $cprattributes = null) {
-        $this->cprattributes = $cprattributes;
-
-        return $this;
-    }
-
-    /**
-     * Get cprattributes
-     *
-     * @return \MissionControl\Bundle\ProjectBundle\Entity\Cprattributes 
-     */
-    public function getCprattributes() {
-        return $this->cprattributes;
-    }
 
 }

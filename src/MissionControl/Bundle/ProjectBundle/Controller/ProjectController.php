@@ -17,7 +17,6 @@ use MissionControl\Bundle\ProjectBundle\Entity\Objectivescores;
 use MissionControl\Bundle\ProjectBundle\Entity\Attributescores;
 use MissionControl\Bundle\ProjectBundle\Entity\BudgetAllocationData;
 use MissionControl\Bundle\ProjectBundle\Entity\TimeAllocationData;
-use MissionControl\Bundle\ProjectBundle\Entity\Individualperformances;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -113,15 +112,25 @@ class ProjectController extends FOSRestController {
             return $response;
         }
         
+        //print_r($lightxmldata);
         //exit(\Doctrine\Common\Util\Debug::dump($lightxmldata));
-       // die();
+        //die();
 
+        $project_unique_identifier = $lightxmldata[0]->getProjectUniqueId();
+        
+        $objectives = $this->getDoctrine()->getRepository('ProjectBundle:Objectives')
+                    ->findBy(['projectId'=> $project_unique_identifier]);
+                  
+        
+        
         // Serialize the Project instance to return JSON format:
         $serializer = $this->get('jms_serializer');
         $jsonContent = $serializer->serialize($project, 'json', SerializationContext::create()->setGroups(array('projectInfo')));
 
         return ['project' => $project
-                ,'lightxmldata' => $lightxmldata];
+                ,'lightxmldata' => $lightxmldata,
+                'objectives' => $objectives
+            ];
     }
 
     /**
@@ -212,7 +221,7 @@ class ProjectController extends FOSRestController {
         $client = new Clients();
         $survey = new Surveys();
         $target = new Targets();
-
+        
         ////////////////////////////////////////////////
         // pbc_xmlfile contains the uploaded xml file.
         ////////////////////////////////////////////////
@@ -247,7 +256,6 @@ class ProjectController extends FOSRestController {
         ////////////////////////////////////////////////////////////////
         $lightproject->setProjectUniqueId($project->getId());
         $lightproject->setSetup($setup);
-        
         
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////

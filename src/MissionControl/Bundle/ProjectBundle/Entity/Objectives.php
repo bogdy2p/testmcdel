@@ -50,7 +50,7 @@ class Objectives {
     private $objectiveId;
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(name="project_id", type="string", nullable=false)
      */
@@ -60,6 +60,7 @@ class Objectives {
      * Set ProjectId
      *
      * @param string $projectId
+     *
      * @return Objectives
      */
     public function setProjectId($projectId) {
