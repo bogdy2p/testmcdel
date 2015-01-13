@@ -118,10 +118,15 @@ class ProjectController extends FOSRestController {
 
         $project_unique_identifier = $lightxmldata[0]->getProjectUniqueId();
         
-        $objectives = $this->getDoctrine()->getRepository('ProjectBundle:Objectives')
+        $project_objectives = $this->getDoctrine()->getRepository('ProjectBundle:Objectives')
                     ->findBy(['projectId'=> $project_unique_identifier]);
-                  
         
+        $project_touchpoints = $this->getDoctrine()->getRepository('ProjectBundle:Touchpoints')
+                    ->findBy(['projectId'=> $project_unique_identifier]);
+        $project_budgetallocation = $this->getDoctrine()->getRepository('ProjectBundle:BudgetAllocationData')
+                    ->findBy(['belongs_to_project'=>$project_unique_identifier]);
+        $project_timeallocation = $this->getDoctrine()->getRepository('ProjectBundle:TimeAllocationData')
+                    ->findBy(['belongs_to_project'=>$project_unique_identifier]);
         
         // Serialize the Project instance to return JSON format:
         $serializer = $this->get('jms_serializer');
@@ -129,7 +134,10 @@ class ProjectController extends FOSRestController {
 
         return ['project' => $project
                 ,'lightxmldata' => $lightxmldata,
-                'objectives' => $objectives
+                'objectives' => $project_objectives,
+                'touchpoints' => $project_touchpoints,
+                'budgetallocation'=> $project_budgetallocation,
+                'timeallocation' => $project_timeallocation
             ];
     }
 
